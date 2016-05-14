@@ -1,0 +1,92 @@
+<?php  require_once("../_php/init_rmadmin.php"); ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php include("../_include/title.php"); ?> - All Recruiters</title>
+<?php include("../_include/design.php"); ?>
+
+</head>
+
+<body>
+<?php include("../_include/header.php"); ?>
+<?php include("_include/topmenu.php"); ?>
+<?php include("_include/menu.php"); ?>
+            
+<!--body-->
+            	
+                
+<table width="100%" cellpadding="0" cellspacing="20" border="0" align="center" class="normalTxt">
+
+<?php if(isset($msg)) echo"<tr><td>{$msg}</td></tr>"; ?>       
+    
+    <tr><td>
+    
+        <table width="100%" cellpadding="0" cellspacing="10" border="0" align="left">
+        <tr height="40px" valign="middle"><td><span class="topicTxt">All Recruiters</span>
+        
+        <a href='add_recruiter.php' title='Add Recruiter'>
+        <img src='../_images/add.png' hspace='10' align='middle' alt='Add Recruiter' /></a>
+        
+        </td></tr>
+        <tr valign="top"><td width="100%">
+        
+            <table cellpadding="6" border="0" width="100%" class='normalTxt infotbl'>    
+            <tr><th><label>Arrival Date</label></th>
+                 <th><label>Grade</label></th>
+                 <th><label>Recruiter</label></th>
+                 <th><label>Branches</label></th>
+                 <th><label>Min Score</label></th>
+                 <th><label>For</label></th>
+                 <th><label>Applications</label></th>
+                 </tr>
+            
+            <?php 
+                $rec_arr = Recruiter::getAllActiveRecruiter(); 
+                
+                if($rec_arr)
+                    while($rec = array_shift($rec_arr))
+                    {
+                        echo"<tr>";
+						
+						if(!empty($rec->arrival_date))
+							echo "<td><label>".date("d/m/y",strtotime($rec->arrival_date))."</label></td>";
+                        else
+							echo"<td>&nbsp;</td>";
+							
+						echo "<td align='center'><label>{$rec->grade}</label></td>";
+                        echo "<td class='contentLinks'><a href='rec_profile.php?id={$rec->recruiter_id}'>{$rec->name}</a></td>";
+						echo "<td><label>".arrDispFormat(str_to_arr($rec->branches))."</label></td>";
+						echo "<td align='center'><label>{$rec->min_score}</label></td>";
+						echo "<td><label>";
+								if($rec->for_year==$session->passYear())
+								    echo "Placement";
+								else if($rec->for_year==$session->passYear()+1)
+									echo "Intern";
+						echo "</label></td>";
+						echo "<td align='center' class='contentLinks'><a href='app_detail.php?id={$rec->recruiter_id}'>".
+								Application::getNumberByRec($rec->recruiter_id)."</a></td></tr>";
+                    }
+                else
+                    echo "<tr><td colspan='7'><label>No recuiters till now.</label></td></tr>";
+                    
+            ?>
+            
+            </table>
+            
+        </td>
+       
+        </tr>
+            
+        </table>
+
+    </td></tr>
+</table>
+                
+                
+<!--body close-->       
+            
+<?php include("../_include/footer.php"); ?>
+</body>
+</html>

@@ -1,0 +1,61 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.a_img{position: relative;}
+.a_img a .a_desc{display:none;}
+.a_img a:hover .a_desc{
+	display:block;
+	position: absolute;	
+	background: #111;
+	filter:alpha(opacity=50);
+	opacity:.5;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	color: #fff;
+	border-top: 1px solid #333;
+	height:15px;
+	width:138px;
+	font-size:14px;
+	padding:5px;
+	bottom: 0px;
+}
+.a_img a:active{ text-decoration:none;}
+
+.b_img{position: relative;}
+.b_img a .b_desc{display:none;}
+.b_img a:hover .b_desc{
+	display:block;
+	position: absolute;	
+	background: #111;
+	filter:alpha(opacity=50);
+	opacity:.5;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	color: #fff;
+	border-top: 1px solid #333;
+	height:15px;
+	width:138px;
+	font-size:14px;
+	padding:5px;
+	bottom: 0px;
+}
+.b_img a:active{ text-decoration:none;}
+
+.c_img{position: relative;}
+.c_img a .c_desc{display:none;}
+.c_img a:hover .c_desc{
+	display:block;
+	position: absolute;	
+	background: #111;
+	filter:alpha(opacity=50);
+	opacity:.5;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	color: #fff;
+	border-top: 1px solid #333;
+	height:15px;
+	width:138px;
+	font-size:14px;
+	padding:5px;
+	bottom: 0px;
+}
+.c_img a:active{ text-decoration:none;}
+
