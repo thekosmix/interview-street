@@ -1,8 +1,5 @@
 language: php
-php:
-  - '5.4'
 env:
   - DB=mysql
 notifications:
   email: siddharth.dce08@gmail.com
-  
