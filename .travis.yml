@@ -1,5 +1,6 @@
 language: php
 env:
   - DB=mysql
+sudo: required
 notifications:
   email: siddharth.dce08@gmail.com
