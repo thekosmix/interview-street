@@ -1,12 +1,7 @@
 language: php
 
-env:
-  - DB=mysql
-
 php:
-    - 5.5
-
-sudo: required
+  - '5.4'
 
 notifications:
   email: siddharth.dce08@gmail.com
