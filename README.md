@@ -1,8 +1,7 @@
 # interview-street
 A project similar to interview-street (now a days HackerRank) I build it as my final year college project in 2011. It's more like a `Résumé Manager` for a college, where jobs and internships are posted by `Placement Co-ordinators`.
 
-The project is hosted and live [here](https://www.thekosmix.com/online_compiler/index.php)
-You can checkout the online compiler by putting small C/C++ code.
+The project is hosted and live [here](https://www.thekosmix.com/online_compiler/index.php). You can checkout the online compiler by putting small C/C++ code.
 
 ## Key Functionalities
 #### Job portal (Resume Manager)
