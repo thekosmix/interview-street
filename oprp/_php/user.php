@@ -14,13 +14,13 @@ class User{
 	public static function authenticated($uname="", $passw=""){
 		
 		global $db;
-		$uname = mysql_real_escape_string($uname);
+		$uname = mysqli_real_escape_string($uname);
 		$passw = sha1($passw);		
 		$sql = "SELECT * FROM user WHERE username = '{$uname}' AND password = '{$passw}' LIMIT 1";
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -42,11 +42,11 @@ class User{
 	public static function sendNewPassLink($uname="", $email=""){
 	
 		global $db;
-		$uname = mysql_real_escape_string($uname);
+		$uname = mysqli_real_escape_string($uname);
 		$sql = "SELECT * FROM user WHERE username = '{$uname}' AND email = '{$email}'";
 		$result = $db->query($sql);
 
-		if(mysql_num_rows($result)>0){
+		if(mysqli_num_rows($result)>0){
 			
 			$row = mysql_fetch_array($result);
 			$from = "From: no-reply@dce.edu";
@@ -70,13 +70,13 @@ class User{
 		$sql = "SELECT * FROM user WHERE username = '{$obj->uname}'";
 		$result = $db->query($sql);
 		
-		if(mysql_num_rows($result)==0){
+		if(mysqli_num_rows($result)==0){
 			$sql = "INSERT INTO user (username, email, password, access) 
 					VALUES ('{$obj->uname}', '{$obj->email}', '{$obj->passw}', '{$obj->access}' )";
 					
 			$result = $db->query($sql);
 			
-			if(mysql_affected_rows()>0)
+			if(mysqli_affected_rows()>0)
 			{
 				$last_user_id = mysql_insert_id();
 				return $last_user_id;
@@ -90,13 +90,13 @@ class User{
 	public static function sendNewPass($user_id, $password){
 	
 		global $db;
-		$uname = mysql_real_escape_string($uname);
+		$uname = mysqli_real_escape_string($uname);
 		$sql = "SELECT * FROM user WHERE user_id = '{$user_id}'";
 		$result = $db->query($sql);
 
-		if(mysql_num_rows($result)>0){
+		if(mysqli_num_rows($result)>0){
 			
-			$row = mysql_fetch_array($result);
+			$row = mysqli_fetch_array($result);
 			$to = $row['email'];
 			$from = "From: New Password <no-reply@dce.edu>";
 			$sub = "New Password";
@@ -114,7 +114,7 @@ class User{
 	public static function validateLink($id="", $link=""){
 		
 		global $db;
-		$id = mysql_real_escape_string($id);
+		$id = mysqli_real_escape_string($id);
 		$link = mysql_real_escape_string($link);
 		$sql = "SELECT * FROM user WHERE user_id = '{$id}' AND password = '{$link}'";
 		$result = $db->query($sql);
