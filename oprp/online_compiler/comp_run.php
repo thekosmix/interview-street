@@ -204,7 +204,7 @@
 		if($input_file == null)
 			$output = shell_exec($resource_limit.$python_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
 		else
-			$output = shell_exec($resource_limit.$python_compiler.$path.$ext.$file.' '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
+			$output = shell_exec($resource_limit.$python_compiler.$path.$ext.$file.' < '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
 			
 		$fin_time = microtime(true);
 	}
