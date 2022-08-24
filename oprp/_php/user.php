@@ -14,7 +14,7 @@ class User{
 	public static function authenticated($uname="", $passw=""){
 		
 		global $db;
-		$uname = mysqli_real_escape_string($uname);
+		$uname = mysqli_real_escape_string($db->mysqli, $uname);
 		$passw = sha1($passw);		
 		$sql = "SELECT * FROM user WHERE username = '{$uname}' AND password = '{$passw}' LIMIT 1";
 		$result = $db->query($sql);
@@ -42,7 +42,7 @@ class User{
 	public static function sendNewPassLink($uname="", $email=""){
 	
 		global $db;
-		$uname = mysqli_real_escape_string($uname);
+		$uname = mysqli_real_escape_string($db->mysqli, $uname);
 		$sql = "SELECT * FROM user WHERE username = '{$uname}' AND email = '{$email}'";
 		$result = $db->query($sql);
 
@@ -90,7 +90,7 @@ class User{
 	public static function sendNewPass($user_id, $password){
 	
 		global $db;
-		$uname = mysqli_real_escape_string($uname);
+		$uname = mysqli_real_escape_string($db->mysqli, $uname);
 		$sql = "SELECT * FROM user WHERE user_id = '{$user_id}'";
 		$result = $db->query($sql);
 
@@ -114,8 +114,8 @@ class User{
 	public static function validateLink($id="", $link=""){
 		
 		global $db;
-		$id = mysqli_real_escape_string($id);
-		$link = mysqli_real_escape_string($link);
+		$id = mysqli_real_escape_string($db->mysqli, $id);
+		$link = mysqli_real_escape_string($db->mysqli, $link);
 		$sql = "SELECT * FROM user WHERE user_id = '{$id}' AND password = '{$link}'";
 		$result = $db->query($sql);
 		
@@ -129,7 +129,7 @@ class User{
 	public static function setNewPass($id="", $passw=""){
 
 		global $db;
-		$id = mysqli_real_escape_string($id);
+		$id = mysqli_real_escape_string($db->mysqli, $id);
 		$passw_enc = sha1($passw);
 		$sql = "UPDATE user SET password = '{$passw_enc}' WHERE user_id = '{$id}'";
 		$result = $db->query($sql);

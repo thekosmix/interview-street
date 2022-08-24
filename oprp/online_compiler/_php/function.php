@@ -49,8 +49,8 @@ function insertsubmission($submission_value, $que_value, $file_content, $ext, $s
 	$points=200/(40+$num_user);
 	$points = number_format($points, 4, '.', '');
 	$sql_points="UPDATE question SET points='".$points."' WHERE que_value='".$que_value."'";
-	mysqli_query($sql_points);
-	$sql = "insert into submission (submission_value, que_value, submission_prog, submission_ext, submission_status, user_id) values('".mysqli_real_escape_string($submission_value)."','".mysqli_real_escape_string($que_value)."','".mysqli_real_escape_string($file_content)."','".mysqli_real_escape_string($ext)."','".mysqli_real_escape_string($status)."','".$user_id."')";
+	$db->query($sql_points);
+	$sql = "insert into submission (submission_value, que_value, submission_prog, submission_ext, submission_status, user_id) values('".mysqli_real_escape_string($db->mysqli, $submission_value)."','".mysqli_real_escape_string($db->mysqli, $que_value)."','".mysqli_real_escape_string($db->mysqli, $file_content)."','".mysqli_real_escape_string($db->mysqli, $ext)."','".mysqli_real_escape_string($db->mysqli, $status)."','".$user_id."')";
 	
 	$result = $db->query($sql);
 	
@@ -238,7 +238,7 @@ function uploadquestion($que_value, $que_title, $que_description, $que_input, $q
 {
 	global $db;
 	
-	$sql = "insert into question (que_value, que_title, que_description, que_input, que_output, output_description, exec_time, marks, points, universal, contest_value) values('".mysqli_real_escape_string($que_value)."','".mysqli_real_escape_string($que_title)."','".htmlspecialchars(mysqli_real_escape_string($que_description))."','".htmlspecialchars(mysqli_real_escape_string($que_input))."','".htmlspecialchars(mysqli_real_escape_string($que_output))."','".htmlspecialchars(mysqli_real_escape_string($output_description))."','".$exec_time."','".$marks."','5','".$universal."','".$contest_value."')";
+	$sql = "insert into question (que_value, que_title, que_description, que_input, que_output, output_description, exec_time, marks, points, universal, contest_value) values('".mysqli_real_escape_string($db->mysqli, $que_value)."','".mysqli_real_escape_string($db->mysqli, $que_title)."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $que_description))."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $que_input))."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $que_output))."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $output_description))."','".$exec_time."','".$marks."','5','".$universal."','".$contest_value."')";
 	
 	$result = $db->query($sql);
 	
