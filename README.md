@@ -27,7 +27,7 @@ The project is hosted and live [here](https://www.thekosmix.com/online_compiler/
   ![Python Code](screen_shots/python_code.png)
   ![Python Output](screen_shots/python_output.png)
   
-### Java
+### Java with input example
 
   ![Java Code](screen_shots/java_code.png)
   ![Java Output](screen_shots/java_output.png)
