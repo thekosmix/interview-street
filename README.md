@@ -20,3 +20,14 @@ The project is hosted and live [here](https://www.thekosmix.com/online_compiler/
 #### Forum
 - `Calendar` where you can glance over a period of a month to see which companies are visiting the campus? In how many of them, you are eligible, etc.
 - `Discussion` where you can discuss about how to prepare for a company and share related stuff
+
+## Screenshots
+### Python
+
+  ![Python Code](screen_shots/python_code.png)
+  ![Python Output](screen_shots/python_code.png)
+  
+### Java
+
+  ![Java Code](screen_shots/java_code.png)
+  ![Java Output](screen_shots/java_code.png)
