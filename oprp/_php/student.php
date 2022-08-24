@@ -34,7 +34,7 @@ class Student{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -75,7 +75,7 @@ class Student{
 		global $db;
 		$sql = "SELECT * FROM student WHERE student_id = '{$user_id}'";
 		$result = $db->query($sql);
-		$row = mysql_fetch_array($result);
+		$row = mysqli_fetch_array($result);
 		$name = $row['first_name'];
 		if(!empty($row['middle_name'])) $name .= " ".$row['middle_name'];
 		$name .= " ".$row['last_name'];
@@ -89,7 +89,7 @@ class Student{
 		global $db;
 		$sql = "SELECT * FROM student WHERE student_id = '{$user_id}'";
 		$result = $db->query($sql);
-		$row = mysql_fetch_array($result);
+		$row = mysqli_fetch_array($result);
 		return $row['image_type'];
 		
 	}
@@ -99,7 +99,7 @@ class Student{
 		global $db;
 		$sql = "SELECT * FROM student WHERE student_id = '{$user_id}'";
 		$result = $db->query($sql);
-		$row = mysql_fetch_array($result);
+		$row = mysqli_fetch_array($result);
 		return $row['course'];
 		
 	}
@@ -129,7 +129,7 @@ class Student{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -159,7 +159,7 @@ class Student{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -175,7 +175,7 @@ class Student{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -219,7 +219,7 @@ class Student{
 		$sub = "New Announcement";
 		$msg = "{$announce->heading}\n\n{$announce->content}\n\n- {$name}";
 		
-		while($row = mysql_fetch_array($result)){
+		while($row = mysqli_fetch_array($result)){
 			$to = $row['email'];
 			@mail($to,$sub,$msg,$from);
 			//echo "<br/>".$to;
@@ -240,7 +240,7 @@ class Student{
 		$sql = "SELECT * FROM student WHERE roll_no = '{$obj->roll_no}'";
 		$result = $db->query($sql);
 		
-		if(mysql_num_rows($result)==0){
+		if(mysqli_num_rows($result)==0){
 			$sql = "INSERT INTO student 
 					(student_id, roll_no, course) 
 					VALUES (
@@ -251,7 +251,7 @@ class Student{
 					
 			$result = $db->query($sql);
 			
-			if(mysql_affected_rows()>0)
+			if(mysqli_affected_rows()>0)
 				return true;
 			else
 				return false;

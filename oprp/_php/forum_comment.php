@@ -18,7 +18,7 @@ class Forum_Comment{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -54,7 +54,7 @@ class Forum_Comment{
 						)";
 		//echo $sql;		
 		$result = $db->query($sql);
-		if(mysql_affected_rows()>0){
+		if(mysqli_affected_rows()>0){
 			Forum_Subs::mailComment($obj);
 			return true;
 		}else return false;
@@ -68,7 +68,7 @@ class Forum_Comment{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		

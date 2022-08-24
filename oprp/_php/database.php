@@ -4,34 +4,29 @@ require_once("config.php");
 
 class MySQLDatabase {
 
-	private $conn;
+	public $mysqli;
 	
 	function __construct(){
 		$this->open_conn();
 	}
 	
 	public function open_conn(){
-		$this->conn = mysqli_connect(DB_SERVER,DB_USER,DB_PASS);
-		if(!$this->conn)
-			die('Database Connection Failed: ' . mysqli_error());
-		else{
-			$db_select = mysqli_select_db($this->conn, DB_NAME);
-			if(!$db_select)
-				die('Database Selection Failed: '.mysqli_error($this->conn));
-		}
+		$this->mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
+		if($mysqli -> connect_errno)
+			error_log('Database Connection Failed: ' . $mysqli -> connect_error);
 	}
 	
 	public function query($sql){
-		$result = mysqli_query($sql, $this->conn);
+		$result = $this->mysqli->query($sql);
 		if(!$result)
-			die('Database Query Failed: '.mysqli_error($this->conn));
+			error_log('Database Query Failed: '. $this -> mysqli -> error);
 		return $result;
 	}
 	
 	public function close_conn(){
-		if(isset($this->conn)){
-			mysqli_close($this->conn);
-			unset($this->conn);
+		if(isset($this->mysqli)){
+			$this->mysqli->close();
+			unset($this->mysqli);
 		}
 	}	
 

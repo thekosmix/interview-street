@@ -9,7 +9,7 @@ if(isset($_POST["submit"])){
 	else{
 		$forum_topic = new Forum_Topic();
 		$forum_topic->heading 	= trim($_POST['heading']);
-		$forum_topic->content 	= mysql_real_escape_string(trim($_POST['content'])); 
+		$forum_topic->content 	= mysqli_real_escape_string(trim($_POST['content'])); 
 		$forum_topic->attachment = $_FILES['attachment']['name'];
 		$forum_topic->topic_type 	= $_POST['topic_type']; 
 		
@@ -26,7 +26,7 @@ if(isset($_POST["submit"])){
 		$inserted = Forum_Topic::insertTopic($forum_topic);
 		Forum_Subs::addSubscription($inserted);
 		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], 
-					"../_attachment/forum_topic/".mysql_insert_id()."_".$_FILES['attachment']['name']);
+					"../_attachment/forum_topic/".mysqli_insert_id()."_".$_FILES['attachment']['name']);
 		
 		if($inserted) $msg = setErrNotMsg("New topic has been created.");		
 		else $msg = setErrMsg("New topic could not be created. Please try later.");

@@ -8,12 +8,12 @@ if(isset($_POST["submit"])){
 
 		$forum_comment = new Forum_Comment();
 		$forum_comment->topic_id 	= $topic_id;
-		$forum_comment->content 	= mysql_real_escape_string(trim($_POST['content'])); 
+		$forum_comment->content 	= mysqli_real_escape_string(trim($_POST['content'])); 
 		$forum_comment->attachment  = $_FILES['attachment']['name'];
 		
 		$inserted = Forum_Comment::insertComment($forum_comment);
 		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], 
-					"../_attachment/forum_comment/".mysql_insert_id()."_".$_FILES['attachment']['name']);
+					"../_attachment/forum_comment/".mysqli_insert_id()."_".$_FILES['attachment']['name']);
 	}
 }
 

@@ -25,14 +25,14 @@ if(isset($_POST["submit"])){
 	else{
 		$announce = new Announcement();
 		$announce->heading 	= trim($_POST['heading']);
-		$announce->content 	= mysql_real_escape_string(trim($_POST['content'])); 
+		$announce->content 	= mysqli_real_escape_string(trim($_POST['content'])); 
 		$announce->attachment = $_FILES['attachment']['name'];
 		$announce->year 	= arr_to_str($_POST['year_arr']); 
 		$announce->branch 	= arr_to_str($_POST['branch_arr']);
 		$announce->recruiter_id	= $_POST['recruiter_id'];
 		
 		$inserted = Announcement::insertAnnouncement($announce);
-		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], "../_attachment/".mysql_insert_id()."_".$_FILES['attachment']['name']);
+		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], "../_attachment/".mysqli_insert_id()."_".$_FILES['attachment']['name']);
 		
 		if($inserted)
 			$msg = setErrNotMsg("New announcement has been created.");		

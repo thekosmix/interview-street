@@ -30,7 +30,7 @@
 		$result = getSharedLinks();
 		echo "<table border='0' cellpadding='5' width='100%' class='normalTxt infotbl'>
 			<tr><th>Program</th><th>Language</th><th>Compile Time</th></tr>";
-		while($row = mysql_fetch_array($result))
+		while($row = mysqli_fetch_array($result))
 		{
 			echo "<tr><td width='150' class='contentLinks'>";
 			if($row['link_name']!=NULL)

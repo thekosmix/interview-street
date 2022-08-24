@@ -30,7 +30,7 @@ $result = getUserbyPoints();
                     <td><label><strong>Points</strong></label></td>
                 </tr>            
 			<?php
-                while($row = mysql_fetch_array($result))
+                while($row = mysqli_fetch_array($result))
                 {
                     $access = getString('access', 'user', 'user_id', $row['user_id']);
                     if(($access%2) == 0)

@@ -83,7 +83,7 @@ if(isset($_GET['que_value']))
 			<tr><td><label><strong>S.No.</strong></label></td><td><label><strong>Questions</strong></label></td>
 			<td><label><strong>Stats </strong></label></td></tr>";
 		
-		while($row = mysql_fetch_array($result))
+		while($row = mysqli_fetch_array($result))
 		{
 			echo "<tr>";
 	   		echo "<td>".$count.".</td>"; 

@@ -8,20 +8,32 @@ function getString($string, $table, $column, $value)
 	
 	//echo $sql."<br><br>";
 	
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);
+	$row = mysqli_fetch_array($result);
 	
 	return $row[$string];
 }
 
+
 function insertlink($link_value, $title, $link_prog, $link_ext, $link_input, $link_output, $time, $user_id, $comment, $share)
 {
 	global $db;
+	$user_id = empty($user_id) ? ",NULL" : ",'".$user_id."'";
 	
-	$sql = "insert into link (link_value, link_name, link_prog, link_ext, link_input, link_output, exec_time, link_comment, share, user_id) values('".mysql_real_escape_string($link_value)."','".mysql_real_escape_string($title)."','".mysql_real_escape_string($link_prog)."','".mysql_real_escape_string($link_ext)."','".mysql_real_escape_string($link_input)."','".mysql_real_escape_string($link_output)."','".$time."','".mysql_real_escape_string($comment)."','".$share."','".$user_id."')";
+	$sql = "insert into link (link_value, link_name, link_prog, link_ext, link_input, link_output, exec_time, link_comment, share, user_id) values('"
+	.mysqli_real_escape_string($db->mysqli, $link_value)."','"
+	.mysqli_real_escape_string($db->mysqli, $title)."','"
+	.mysqli_real_escape_string($db->mysqli, $link_prog)."','"
+	.mysqli_real_escape_string($db->mysqli, $link_ext)."','"
+	.mysqli_real_escape_string($db->mysqli, $link_input)."','"
+	.mysqli_real_escape_string($db->mysqli, $link_output)."','"
+	.$time."','"
+	.mysqli_real_escape_string($db->mysqli, $comment)."','"
+	.$share."'"
+	.$user_id
+	.")";
 	
-	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if(!$result)
 		return false;
@@ -37,10 +49,10 @@ function insertsubmission($submission_value, $que_value, $file_content, $ext, $s
 	$points=200/(40+$num_user);
 	$points = number_format($points, 4, '.', '');
 	$sql_points="UPDATE question SET points='".$points."' WHERE que_value='".$que_value."'";
-	mysql_query($sql_points);
-	$sql = "insert into submission (submission_value, que_value, submission_prog, submission_ext, submission_status, user_id) values('".mysql_real_escape_string($submission_value)."','".mysql_real_escape_string($que_value)."','".mysql_real_escape_string($file_content)."','".mysql_real_escape_string($ext)."','".mysql_real_escape_string($status)."','".$user_id."')";
+	mysqli_query($sql_points);
+	$sql = "insert into submission (submission_value, que_value, submission_prog, submission_ext, submission_status, user_id) values('".mysqli_real_escape_string($submission_value)."','".mysqli_real_escape_string($que_value)."','".mysqli_real_escape_string($file_content)."','".mysqli_real_escape_string($ext)."','".mysqli_real_escape_string($status)."','".$user_id."')";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if(!$result)
 		return false;
@@ -53,8 +65,8 @@ function getlinkdetail($link_value)
 	global $db;
 	$sql = "select * from link where link_value = '".$link_value."'";
 	
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);
+	$row = mysqli_fetch_array($result);
 	
 	if($result)
 		return $row;
@@ -67,7 +79,7 @@ function getSubmissionByUserId($query)
 	global $db;
 	$sql = "select * from submission where ".$query;
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 		return $result;
@@ -96,7 +108,7 @@ function getAllQuestion()
 	global $db;
 	$sql = "select que_value, que_title from question where universal = '1'";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 		return $result;
@@ -109,7 +121,7 @@ function getQuestionbycompany($user_id)
 	global $db;
 	$sql = "select * from competition where user_id = '".$user_id."'";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 		return $result;
@@ -122,8 +134,8 @@ function getQuestionByValue($que_value)
 	global $db;
 	$sql = "select * from question where que_value='".$que_value."'";
 	
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);
+	$row = mysqli_fetch_array($result);
 	
 	if($result)
 		return $row;
@@ -137,8 +149,8 @@ function login($username, $password)
 	global $db;
 	$sql = "select * from user where username = '".$username."'";
 	
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);
+	$row = mysqli_fetch_array($result);
 	
 	if(sha1($password) == $row['password'])
 	{
@@ -163,7 +175,7 @@ function register($username, $password, $access)
 	$password = sha1($password);
 
 	$sql = "insert into user (username, password, access) values('".$username."', '".$password."','".$access."')";
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 	{
@@ -172,7 +184,7 @@ function register($username, $password, $access)
 		session_start();
 		$_SESSION['username'] = $username;
 		$_SESSION['access'] = $row['access'];
-		$_SESSION['user_id'] = mysql_insert_id();
+		$_SESSION['user_id'] = mysqli_insert_id();
 		
 		return 1;
 	}
@@ -187,8 +199,8 @@ function getuserdetailbyID($user_id)
 	global $db;
 	$sql = "select * from user where user_id = '".$user_id."'";
 	
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);
+	$row = mysqli_fetch_array($result);
 	
 	if($result)
 		return $row;
@@ -201,7 +213,7 @@ function getcompiledlinkbyuserid($user_id)
 	global $db;
 	$sql = "select * from link where user_id = '".$user_id."' order by compile_date desc";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 		return $result;
@@ -214,7 +226,7 @@ function getUniqueSubmissionsbyuserid($user_id)
 	global $db;
 	$sql = "select distinct que_value from submission where user_id = '".$user_id."'";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 		return $result;
@@ -226,9 +238,9 @@ function uploadquestion($que_value, $que_title, $que_description, $que_input, $q
 {
 	global $db;
 	
-	$sql = "insert into question (que_value, que_title, que_description, que_input, que_output, output_description, exec_time, marks, points, universal, contest_value) values('".mysql_real_escape_string($que_value)."','".mysql_real_escape_string($que_title)."','".htmlspecialchars(mysql_real_escape_string($que_description))."','".htmlspecialchars(mysql_real_escape_string($que_input))."','".htmlspecialchars(mysql_real_escape_string($que_output))."','".htmlspecialchars(mysql_real_escape_string($output_description))."','".$exec_time."','".$marks."','5','".$universal."','".$contest_value."')";
+	$sql = "insert into question (que_value, que_title, que_description, que_input, que_output, output_description, exec_time, marks, points, universal, contest_value) values('".mysqli_real_escape_string($que_value)."','".mysqli_real_escape_string($que_title)."','".htmlspecialchars(mysqli_real_escape_string($que_description))."','".htmlspecialchars(mysqli_real_escape_string($que_input))."','".htmlspecialchars(mysqli_real_escape_string($que_output))."','".htmlspecialchars(mysqli_real_escape_string($output_description))."','".$exec_time."','".$marks."','5','".$universal."','".$contest_value."')";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if(!$result)
 		return false;
@@ -241,7 +253,7 @@ function insertContest($contest_name, $contest_value, $user_id, $start_date, $st
 	global $db;
 	$sql = "insert into contest (contest_name, contest_value, user_id, start_date, start_time, duration, min_marks) values('".$contest_name."','".$contest_value."','".$user_id."','".$start_date."','".$start_time."','".$duration."','".$min_marks."')";
 	//echo $sql;
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if(!$result)
 		return false;
@@ -254,7 +266,7 @@ function getuserdetail($username)
 {
 	global $db;
 	$sql="SELECT * FROM user WHERE username='".$username."'";
-	$result=mysql_query($sql);
+	$result=$db->query($sql);
 	if($result)
 		return $result;
 	else
@@ -266,7 +278,7 @@ function getContestbyCompanyID($user_id)
 	global $db;
 	$sql="SELECT * FROM contest WHERE user_id='".$user_id."'";
 	//$sql = "SELECT * FROM contest c, question q where user_id = '".$user_id."'";
-	$result=mysql_query($sql);
+	$result=$db->query($sql);
 	if($result)
 		return $result;
 	else
@@ -278,7 +290,7 @@ function getQuestionbyContestValue($contest_value)
 	global $db;
 	$sql="SELECT * FROM question WHERE contest_value='".$contest_value."'";
 	//$sql = "SELECT * FROM contest c, question q where user_id = '".$user_id."'";
-	$result=mysql_query($sql);
+	$result=$db->query($sql);
 	if($result)
 		return $result;
 	else
@@ -290,7 +302,7 @@ function getAllContest()
 	global $db;
 	$sql="SELECT * FROM contest";
 	//$sql = "SELECT * FROM contest c, question q where user_id = '".$user_id."'";
-	$result=mysql_query($sql);
+	$result=$db->query($sql);
 	if($result)
 		return $result;
 	else
@@ -303,7 +315,7 @@ function getUniqueUserByQuestion($que_value)
 	
 	//echo $sql."<br><br>";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 		return $result; 
@@ -314,8 +326,8 @@ function getUniqueUserid($que_value)
 {
 	global $db;
 	$sql="SELECT COUNT( DISTINCT (user_id) ) FROM submission WHERE que_value = '".$que_value."' AND submission_status =  '1' AND user_id >0";
-	$result = mysql_query($sql);	
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);	
+	$row = mysqli_fetch_array($result);
 	if($result)
 		return $row[0]; 
 	else
@@ -333,8 +345,8 @@ function userPoints($user_id)
 			AND submission_status =  '1'
 			) ";
 	
-	$result=mysql_query($sql);
-	$row=mysql_fetch_array($result);
+	$result=$db->query($sql);
+	$row=mysqli_fetch_array($result);
 	return $row[0];
 }
 
@@ -345,7 +357,7 @@ function getUserbyPoints()
 	$sql = "SELECT DISTINCT user_id, sum( points ) as points FROM submission NATURAL JOIN question WHERE submission_status = '1' GROUP BY user_id ORDER BY sum( points ) desc";
 	
 	//echo $sql;
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	if($result)
 		return $result;
 	else
@@ -363,7 +375,7 @@ function getUserbySolvedQuestion($contest_value)
 			group by user_id
 			order by num desc";
 			
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	if($result)
 		return $result;
 	else
@@ -384,8 +396,8 @@ function successful_submission($que_value)
 	
 	$sql = "SELECT count(*)  FROM submission  WHERE que_value = '".$que_value."' and submission_status = '1'";
 	
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);
+	$row = mysqli_fetch_array($result);
 	
 	if($result)
 		return $row[0];
@@ -399,8 +411,8 @@ function total_submission($que_value)
 	
 	$sql = "SELECT count(*)  FROM submission  WHERE que_value = '".$que_value."'";
 	
-	$result = mysql_query($sql);
-	$row = mysql_fetch_array($result);
+	$result = $db->query($sql);
+	$row = mysqli_fetch_array($result);
 	
 	if($result)
 		return $row[0];
@@ -413,7 +425,7 @@ function getSharedLinks()
 	global $db;
 	$sql = "select * from link where share = '1' order by compile_date desc";
 	
-	$result = mysql_query($sql);
+	$result = $db->query($sql);
 	
 	if($result)
 		return $result;

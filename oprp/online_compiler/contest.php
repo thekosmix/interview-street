@@ -39,7 +39,7 @@
 		echo "<h2>Contest</h2>";
         $result = getAllContest();
 		
-		while($row = mysql_fetch_array($result))
+		while($row = mysqli_fetch_array($result))
 		{					
 			$cur_time=strtotime(date('Y-m-d H:i:s'));
 			$start_time=strtotime($row['start_date']." ".$row['start_time']);
@@ -53,7 +53,7 @@
 				echo "<a href='stats.php?user=user&contest_value=".$row['contest_value']."'>User's Stats</a><br/>";
 				$que_result = getQuestionbyContestValue($row['contest_value']);
 				
-				while($que_row = mysql_fetch_array($que_result))
+				while($que_row = mysqli_fetch_array($que_result))
 					echo "--- <a href='problem.php?que_value=".$que_row['que_value']."'>".$que_row['que_title']."</a><br>";
 			}			
 			if($diff<0)

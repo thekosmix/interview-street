@@ -18,7 +18,7 @@ class Application{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -32,7 +32,7 @@ class Application{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -50,7 +50,7 @@ class Application{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -83,7 +83,7 @@ class Application{
 					
 			$result = $db->query($sql);
 			
-			if(mysql_affected_rows()>0)
+			if(mysqli_affected_rows()>0)
 				return true;
 			else
 				return false;
@@ -104,7 +104,7 @@ class Application{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -120,7 +120,7 @@ class Application{
 				AND r.grade >= '{$rec_grade}'";
 		$result = $db->query($sql);
 		
-		if(mysql_num_rows($result)>0)
+		if(mysqli_num_rows($result)>0)
 		   return false;
 		else
 			return true;
@@ -132,7 +132,7 @@ class Application{
 				WHERE recruiter_id = {$rec_id}";
 		$result = $db->query($sql);
 
-		return mysql_num_rows($result);
+		return mysqli_num_rows($result);
 		
 	}
 	
@@ -146,7 +146,7 @@ class Application{
 		
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;

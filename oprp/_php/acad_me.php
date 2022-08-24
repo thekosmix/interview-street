@@ -46,7 +46,7 @@ class Academics_ME{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -126,7 +126,7 @@ class Academics_ME{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -170,7 +170,7 @@ class Academics_ME{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -192,7 +192,7 @@ class Academics_ME{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -204,7 +204,7 @@ class Academics_ME{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		

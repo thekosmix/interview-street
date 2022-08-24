@@ -3,16 +3,16 @@
 include_once("../_php/functions.php");
 
 $arr_date = $_GET['date'];
-$con = mysql_connect('localhost','user','pass');
-mysql_select_db('rm_new', $con);
+$con = mysqli_connect('localhost','user','pass');
+mysqli_select_db('rm_new', $con);
 $sql = "SELECT * from recruiter where arrival_date ='".$arr_date."'";
-$sqlresult = mysql_query($sql);
+$sqlresult = $db->query($sql);
 ?>
 
 <table>
 
 <?php
-while($row=mysql_fetch_array($sqlresult))
+while($row=mysqli_fetch_array($sqlresult))
 {
 	echo '<td>';
 	

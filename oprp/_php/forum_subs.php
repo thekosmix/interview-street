@@ -15,7 +15,7 @@ class Forum_Subs{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -57,7 +57,7 @@ class Forum_Subs{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0){
+		if(mysqli_affected_rows()>0){
 			return true;
 		}else
 			return false;
@@ -71,7 +71,7 @@ class Forum_Subs{
 		$user_id = $session->user_id;
 		$sql = "SELECT * FROM forum_subs WHERE topic_id='{$topic_id}' AND user_id='{$user_id}'";
 		$result = $db->query($sql);
-		if(mysql_num_rows($result)>0){
+		if(mysqli_num_rows($result)>0){
 			return true;
 		}else
 			return false;
@@ -86,7 +86,7 @@ class Forum_Subs{
 		$sql = "DELETE FROM forum_subs WHERE topic_id='{$topic_id}' AND user_id='{$user_id}'";
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0){
+		if(mysqli_affected_rows()>0){
 			return true;
 		}else
 			return false;
@@ -102,7 +102,7 @@ class Forum_Subs{
 		$sub = "New Comment";
 		$msg = "{$obj->content}";
 		
-		while($row = mysql_fetch_array($result)){
+		while($row = mysqli_fetch_array($result)){
 			$to = $row['email'];
 			@mail($to,$sub,$msg,$from);
 			//echo "<br/>".$to;

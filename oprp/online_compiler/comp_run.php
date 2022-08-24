@@ -58,11 +58,11 @@
 			
 			if($input_file == null)
 			{
-				if($que_value == null)
+				if($que_value == null) {
 					$output = shell_exec($resource_limit.$java.$path.$ext.' '.$classfile.' > '.$path.$ext.'out.txt 2>&1');
+				}
 				else
 				{
-					$resource_limit = $resource_limit.'ulimit -f 13666; ';
 					$shell = $path.$ext.$classfile.' < '.$path.$in_folder.$que_value.'.txt > '.$path.$gen_out_folder.'out.txt';
 					$output = shell_exec($resource_limit.$shell);
 				}
@@ -89,7 +89,6 @@
 					$output = shell_exec($resource_limit.$scala.$path.' '.$classfile.' > '.$path.$ext.'out.txt 2>&1');
 				else
 				{
-					$resource_limit = $resource_limit.'ulimit -f 13666; ';
 					$shell = $path.$classfile.' < '.$path.$in_folder.$que_value.'.txt > '.$path.$gen_out_folder.'out.txt';
 					$output = shell_exec($resource_limit.$shell);
 				}
@@ -116,7 +115,6 @@
 					$output = shell_exec($resource_limit.$path.$ext.$cpp_file_name.' > '.$path.$ext.'out.txt 2>&1');
 				else
 				{
-					$resource_limit = $resource_limit.'ulimit -f 13666; ';
 					$shell = $path.$ext.$cpp_file_name.' < '.$path.$in_folder.$que_value.'.txt > '.$path.$gen_out_folder.'out.txt';
 					$output = shell_exec($resource_limit.$shell);
 				}
@@ -143,7 +141,6 @@
 					$output = shell_exec($resource_limit.$path.$ext.$c_file_name.' > '.$path.$ext.'out.txt 2>&1');
 				else
 				{
-					$resource_limit = $resource_limit.'ulimit -f 13666; ';
 					$shell = $path.$ext.$c_file_name.' < '.$path.$in_folder.$que_value.'.txt > '.$path.$gen_out_folder.'out.txt';
 					$output = shell_exec($resource_limit.$shell);					
 				}
@@ -166,7 +163,6 @@
 				$output = shell_exec($resource_limit.$perl_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
 			else
 			{
-					$resource_limit = $resource_limit.'ulimit -f 13666; ';
 					$shell = $path.$ext.$file.' < '.$path.$in_folder.$que_value.'.txt > '.$path.$gen_out_folder.'out.txt';
 					$output = shell_exec($resource_limit.$shell);					
 			}
@@ -200,6 +196,9 @@
         }
 	else if($ext == "py/")
 	{		
+		$hello = shell_exec($resource_limit.$python_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
+		$out = shell_exec('cat out.txt');
+
 		$init_time = microtime(true);
 		
 		if($input_file == null)
@@ -318,7 +317,6 @@
 					$output = shell_exec($resource_limit.$path.$ext.$fort_file_name.' > '.$path.$ext.'out.txt 2>&1');
 				else
 				{
-					$resource_limit = $resource_limit.'ulimit -f 13666; ';
 					$shell = $path.$ext.$fort_file_name.' < '.$path.$in_folder.$que_value.'.txt > '.$path.$gen_out_folder.'out.txt';
 					$output = shell_exec($resource_limit.$shell);
 				}
@@ -345,7 +343,6 @@
 					$output = shell_exec($resource_limit.$path.$ext.$cobol_file_name.' > '.$path.$ext.'out.txt 2>&1');
 				else
 				{
-					$resource_limit = $resource_limit.'ulimit -f 13666; ';
 					$shell = $path.$ext.$cobol_file_name.' < '.$path.$in_folder.$que_value.'.txt > '.$path.$gen_out_folder.'out.txt';
 					$output = shell_exec($resource_limit.$shell);
 				}

@@ -106,4 +106,51 @@
         $find = "differ";
 		
 	}
+
+	else if(PHP_OS == "Darwin")
+	{
+		$path = getcwd().'/';	//	/opt/lampp/htdocs/online_compiler
+		$resource_limit = 'ulimit -t 2; ulimit -f 1366; ';
+		$file_comp = 'diff -aq ';
+		$output_folder = $path.'_competition/output/';
+
+		$java_compiler = '"/Users/siddharthkumar/.jenv/shims/javac" ';
+		$java = '"/Users/siddharthkumar/.jenv/shims/java" -cp ';
+
+		$cpp_compiler = 'g++ -o ';
+
+		$c_compiler = 'gcc -lm -o ';
+
+		$perl_compiler = 'perl ';
+
+		$php_compiler = '"php" ';
+
+		$python_compiler = '/usr/bin/python3 ';
+
+		$ruby_compiler = '"/home/ubuntu/.rvm/rubies/ruby-2.2.1/bin/ruby" ';
+
+		$haskell_compiler = '"ghc" ';
+
+		$r_compiler = 'Rscript ';
+
+		$go_compiler = '/usr/bin/go run ';
+
+		$pascal_compiler = '"fpc" ';
+
+		$bf_compiler = 'bf ';
+
+                $fortran_compiler = 'gfortran -o';
+
+                $cobol_compiler = 'cobc -o';
+
+		$bash_compiler = '"bash" ';
+
+                $scala_compiler = 'scalac ';
+		$scala = 'scala -cp ';
+		
+		$js_compiler = '"nodejs" ';
+
+        $find = "differ";
+		
+	}
 ?>

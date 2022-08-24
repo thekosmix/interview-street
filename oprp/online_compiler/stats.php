@@ -60,7 +60,7 @@
 		{
 			$result = getQuestionbyContestValue($contest_value);
 	
-			while($row = mysql_fetch_array($result))
+			while($row = mysqli_fetch_array($result))
 			{
 				echo "<a href='problem.php?que_value=".$row['que_value']."'>".$row['que_title']."</a><br>";
 				$result_user = getUniqueUserByQuestion($row['que_value']);
@@ -69,7 +69,7 @@
 				echo "Points: ".$row['points']."<br />";
 				$result_user = getUniqueUserByQuestion($row['que_value']);
 				
-				while($row_user = mysql_fetch_array($result_user))
+				while($row_user = mysqli_fetch_array($result_user))
 				{
 					if($row_user['access'] != 19 )
 						echo "-- <a href='participant_profile.php?user_id=".$row_user['user_id']."'>".$row_user['username']."</a><br />";			
@@ -88,7 +88,7 @@
 					</tr>
 				";
 			
-			while($row = mysql_fetch_array($result))
+			while($row = mysqli_fetch_array($result))
 			{
                             $cur_access = getString('access', 'user', 'user_id', $row['user_id']);
                             if(($cur_access%2)==0)

@@ -71,7 +71,7 @@
 	
 	$i=0;
 	echo"<table border='0' width='100%'>";
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{	
 		if($i%5==0) echo"<tr>";
 		if($row['link_name'] == "")
@@ -86,7 +86,7 @@
 	echo "<h3>Solved Questions</h3>";
 	$result = getUniqueSubmissionsbyuserid($user_id);
 
-	while($row = mysql_fetch_array($result))
+	while($row = mysqli_fetch_array($result))
 	{
 		$que_title = getString('que_title', 'question', 'que_value', $row['que_value']);
 		echo "<a href='view.php?que_value=".$row['que_value']."&user_id=".$user_id."'>".$que_title."</a><br/>";

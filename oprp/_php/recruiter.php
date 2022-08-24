@@ -25,7 +25,7 @@ class Recruiter extends Company{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -60,7 +60,7 @@ class Recruiter extends Company{
 		global $db;
 		$sql = "SELECT * FROM recruiter NATURAL JOIN company WHERE recruiter_id = '{$user_id}'";
 		$result = $db->query($sql);
-		$row = mysql_fetch_array($result);
+		$row = mysqli_fetch_array($result);
 		return $row['name'];
 		
 	}
@@ -83,7 +83,7 @@ class Recruiter extends Company{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -107,7 +107,7 @@ class Recruiter extends Company{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0)
+		if(mysqli_affected_rows()>0)
 			return true;
 		else
 			return false;
@@ -142,7 +142,7 @@ class Recruiter extends Company{
 				
 		$result = $db->query($sql);
 		
-		if(mysql_affected_rows()>0){
+		if(mysqli_affected_rows()>0){
 			return true;
 		}else
 			return false;
@@ -156,7 +156,7 @@ class Recruiter extends Company{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -176,7 +176,7 @@ class Recruiter extends Company{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -194,7 +194,7 @@ class Recruiter extends Company{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -215,8 +215,8 @@ class Recruiter extends Company{
 				
 		$result = $db->query($sql);
 
-		if(mysql_num_rows($result)>0){
-			$row = mysql_fetch_array($result);
+		if(mysqli_num_rows($result)>0){
+			$row = mysqli_fetch_array($result);
 			return Application::collegePolicy($session->user_id, $row['grade']);			
 		}else
 			return false;

@@ -14,7 +14,7 @@ include_once("../_php/function.php");
 		{
 			$result_sub = getSubmissionByUserId(" submission_value = '".$submission_value."'");
 			
-			while($row_sub = mysql_fetch_array($result_sub))
+			while($row_sub = mysqli_fetch_array($result_sub))
 			{
 				echo "<h3>Question:</h3><pre>".getString('que_title', 'question', 'que_value', $row_sub['que_value'])."</pre>";
 				echo "<hr />";				

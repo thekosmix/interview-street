@@ -92,7 +92,7 @@ if(isset($_GET['user_id']))
 						<th>Submitted On</th>
 					</tr>
 		<?php
-			while($row_submission = mysql_fetch_array($result))
+			while($row_submission = mysqli_fetch_array($result))
 			{
 				echo "<tr>
 					<td class='contentLinks'>";
