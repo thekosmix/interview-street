@@ -54,7 +54,7 @@ class Forum_Comment{
 						)";
 		//echo $sql;		
 		$result = $db->query($sql);
-		if(mysqli_affected_rows()>0){
+		if($db->mysqli->affected_rows>0){
 			Forum_Subs::mailComment($obj);
 			return true;
 		}else return false;

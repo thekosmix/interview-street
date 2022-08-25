@@ -113,7 +113,7 @@ class Academics_BE{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0)
+		if($db->mysqli->affected_rows>0)
 			return true;
 		else
 			return false;
@@ -154,7 +154,7 @@ class Academics_BE{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0)
+		if($db->mysqli->affected_rows>0)
 			return true;
 		else
 			return false;
@@ -176,7 +176,7 @@ class Academics_BE{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0)
+		if($db->mysqli->affected_rows>0)
 			return true;
 		else
 			return false;

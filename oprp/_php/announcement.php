@@ -86,7 +86,7 @@ class Announcement{
 		
 		$obj->creator_id = $session->user_id;
 		$obj->creator_access = $session->access;
-		
+		$is_recruiter_id = empty($obj->recruiter_id) ? false : true;
 		$sql = "INSERT INTO announcement 
 				(heading, content, attachment, creator_id, creator_access, year, branch, recruiter_id) 
 				VALUES (
@@ -96,13 +96,12 @@ class Announcement{
 						'{$obj->creator_id}', 
 						'{$obj->creator_access}', 
 						'{$obj->year}', 
-						'{$obj->branch}',
-						'{$obj->recruiter_id}'
-						)";
-				
+						'{$obj->branch}',";
+		$sql = $sql . (($is_recruiter_id) ? '{$obj->recruiter_id} )' : "NULL )");
+	
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0){
+		if($db->mysqli->affected_rows>0){
 			Student::mailAnnouncement($obj);
 			return true;
 		}else
@@ -121,7 +120,7 @@ class Announcement{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0)
+		if($db->mysqli->affected_rows>0)
 			return true;
 		else
 			return false;
@@ -136,7 +135,7 @@ class Announcement{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0)
+		if($db->mysqli->affected_rows>0)
 			return true;
 		else
 			return false;

@@ -143,7 +143,7 @@
 
                 $cobol_compiler = 'cobc -o';
 
-		$bash_compiler = '"bash" ';
+		$bash_compiler = '"zsh" ';
 
                 $scala_compiler = 'scalac ';
 		$scala = 'scala -cp ';

@@ -76,7 +76,7 @@ class User{
 					
 			$result = $db->query($sql);
 			
-			if(mysqli_affected_rows()>0)
+			if($db->mysqli->affected_rows>0)
 			{
 				$last_user_id = mysqli_insert_id();
 				return $last_user_id;
@@ -134,7 +134,7 @@ class User{
 		$sql = "UPDATE user SET password = '{$passw_enc}' WHERE user_id = '{$id}'";
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0){
+		if($db->mysqli->affected_rows>0){
 			self::sendNewPass($id, $passw);
 			return true;
 		}else
@@ -186,7 +186,7 @@ class User{
 			$sql = "UPDATE user SET username  = '{$uname}' WHERE user_id = '{$session->user_id}'";
 			$result = $db->query($sql);
 		
-			if(mysqli_affected_rows()>0)
+			if($db->mysqli->affected_rows>0)
 				return true;
 			else
 				return false;
@@ -212,7 +212,7 @@ class User{
 			$sql = "UPDATE user SET email = '{$email}' WHERE user_id = '{$session->user_id}'";
 			$result = $db->query($sql);
 		
-			if(mysqli_affected_rows()>0)
+			if($db->mysqli->affected_rows>0)
 				return true;
 			else
 				return false;

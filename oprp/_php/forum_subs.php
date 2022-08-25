@@ -57,7 +57,7 @@ class Forum_Subs{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0){
+		if($db->mysqli->affected_rows>0){
 			return true;
 		}else
 			return false;
@@ -86,7 +86,7 @@ class Forum_Subs{
 		$sql = "DELETE FROM forum_subs WHERE topic_id='{$topic_id}' AND user_id='{$user_id}'";
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0){
+		if($db->mysqli->affected_rows>0){
 			return true;
 		}else
 			return false;

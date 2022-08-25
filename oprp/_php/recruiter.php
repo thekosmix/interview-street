@@ -83,7 +83,7 @@ class Recruiter extends Company{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0)
+		if($db->mysqli->affected_rows>0)
 			return true;
 		else
 			return false;
@@ -107,7 +107,7 @@ class Recruiter extends Company{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0)
+		if($db->mysqli->affected_rows>0)
 			return true;
 		else
 			return false;
@@ -141,8 +141,8 @@ class Recruiter extends Company{
 						)";
 				
 		$result = $db->query($sql);
-		
-		if(mysqli_affected_rows()>0){
+		error_log($sql);
+		if($db->mysqli->affected_rows>0){
 			return true;
 		}else
 			return false;

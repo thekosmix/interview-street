@@ -89,7 +89,7 @@ class Forum_Topic extends Company{
 				
 		$result = $db->query($sql);
 		
-		if(mysqli_affected_rows()>0){
+		if($db->mysqli->affected_rows>0){
 			return mysqli_insert_id();
 		}else
 			return false;
@@ -103,7 +103,7 @@ class Forum_Topic extends Company{
 		$user_id = $session->user_id;
 		$sql = "DELETE FROM forum_topic WHERE topic_id='{$topic_id}' AND user_id='{$user_id}'";
 		$result = $db->query($sql);
-		if(mysqli_affected_rows()>0){
+		if($db->mysqli->affected_rows>0){
 			return true;
 		}else
 			return false;
