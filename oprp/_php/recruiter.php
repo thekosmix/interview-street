@@ -141,7 +141,6 @@ class Recruiter extends Company{
 						)";
 				
 		$result = $db->query($sql);
-		error_log($sql);
 		if($db->mysqli->affected_rows>0){
 			return true;
 		}else
