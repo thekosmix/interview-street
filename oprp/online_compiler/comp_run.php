@@ -28,7 +28,7 @@
 	{
 		$que_value = $_GET['que_value'];
 		$exec_time = (getString('exec_time', 'question', 'que_value', $que_value))/1000;
-		if(PHP_OS == "Linux")
+		if(PHP_OS == "Linux" || PHP_OS == "Darwin")
 		$resource_limit = 'ulimit -t '.$exec_time.'; ';
 	}
 

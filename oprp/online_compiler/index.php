@@ -128,15 +128,15 @@ window.onload = selectsyntax;
                 <option value="cob">COBOL</option>
                 <option value="cpp" style="font-weight: bold">CPP</option>
                 <option value="f">Fortran</option>
-                <option value="go">Go</option>     
+                <option value="go" style="font-weight: bold">Go</option>     
                 <option value="hs">Haskell</option>     
                 <option value="java" style="font-weight: bold">Java</option>                
-	     	<option value="js" style="font-weight: bold">JavaScript</option>
+	     	    <option value="js" style="font-weight: bold">JavaScript</option>
                 <option value="pas">Pascal</option>                
                 <option value="pl" style="font-weight: bold">Perl</option>
-                <option value="php" style="font-weight: bold">PHP</option>
+                <option value="php"">PHP</option>
                 <option value="py" style="font-weight: bold">Python</option>
-                <option value="r" style="font-weight: bold">R</option>
+                <option value="r" >R</option>
                 <option value="rb" style="font-weight: bold">Ruby</option>
                 <option value="scala">Scala</option>
             </select>
