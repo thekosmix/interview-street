@@ -127,28 +127,28 @@
 
 		$python_compiler = '/usr/bin/python3 ';
 
-		$ruby_compiler = '"/home/ubuntu/.rvm/rubies/ruby-2.2.1/bin/ruby" ';
+		$ruby_compiler = '"/Users/siddharthkumar/.rvm/rubies/ruby-3.0.0/bin/ruby" ';
 
 		$haskell_compiler = '"ghc" ';
 
 		$r_compiler = 'Rscript ';
 
-		$go_compiler = '/usr/bin/go run ';
+		$go_compiler = '/usr/local/bin/go run ';
 
 		$pascal_compiler = '"fpc" ';
 
-		$bf_compiler = 'bf ';
+		$bf_compiler = '/usr/local/bin/brainfuck ';
 
-                $fortran_compiler = 'gfortran -o';
+        $fortran_compiler = 'gfortran -o';
 
-                $cobol_compiler = 'cobc -o';
+        $cobol_compiler = 'cobc -o';
 
 		$bash_compiler = '"zsh" ';
 
-                $scala_compiler = 'scalac ';
+        $scala_compiler = 'scalac ';
 		$scala = 'scala -cp ';
 		
-		$js_compiler = '"nodejs" ';
+		$js_compiler = '"/Users/siddharthkumar/.nvm/versions/node/v14.18.2/bin/node" ';
 
         $find = "differ";
 		

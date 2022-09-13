@@ -34,6 +34,15 @@ if(isset($_POST["submit"])){
 			$recruiter->year 			= trim($_POST['year']); 
 			$recruiter->branches		= arr_to_str($_POST['branch_arr']); 
 			
+				
+			$company = new Company();
+			$company->name 			= trim($_POST['name']);
+			$company->description 	= trim($_POST['comp_desc']);
+			$company->website		= trim($_POST['website']);
+			$company->logo_url		= trim($_POST['logo_url']);
+			$recruiter->company_id	= Company::insertCompany($company);
+			
+
 			$inserted = Recruiter::insertRecruiter($recruiter);
 			
 			if($inserted)
@@ -60,13 +69,13 @@ $(document).ready(function() {
 	rules: { 
 	  uname: { required: true},
 	  passw: { required: true},
-  	  company_id: { required: true},
+ // 	  company_id: { required: true},
 	  grade: { required: true}
 	}, 
 	messages: { 
 	  uname: { required: "<br/>Please enter the username" },
 	  passw: { required: "<br/>Please enter the passw" },
-	  company_id: { required: "<br/>Please select a company" },
+//	  company_id: { required: "<br/>Please select a company" },
 	  grade: { required: "<br/>Please enter the grade" }
 	} 
   }); 
@@ -113,8 +122,8 @@ $(function() {
                 <tr><td><label><strong>Company Password</strong></label></td>
                 	<td><input type="password" name="passw" id="passw" size="40"/></td></tr>
                     
-                <tr><td><label><strong>Company </strong></label></td>
-                	<td><input type="text" name="company_id" id="company_id" size="40"/></td></tr>    
+                <!-- <tr><td><label><strong>Company </strong></label></td>
+                	<td><input type="text" name="company_id" id="company_id" size="40"/></td></tr>     -->
                 
                 <tr><td><label><strong>Company Name</strong></label></td>
                 	<td><input type="text" name="name" id="name" size="40"/></td></tr>    
