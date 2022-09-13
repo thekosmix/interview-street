@@ -60,7 +60,8 @@ if(isset($_GET['user_id']))
 	if($link_value != null)
 	{
 		$row_link = getlinkdetail($link_value);
-		
+		echo "<h3>Language:</h3><pre>".$row_link['link_ext']."</pre>";
+		echo "<hr />";
 		echo "<h3>Program:</h3><pre>".$row_link['link_prog']."</pre>";
 		echo "<hr />";
 		echo "<h3>Input:</h3><pre>".$row_link['link_input']."</pre>";
