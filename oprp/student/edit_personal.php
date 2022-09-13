@@ -39,8 +39,8 @@ if(isset($_POST["submit"])){
 	
 	if($is_updated)
 		$msg = setErrNotMsg("Personal profile has been updated.".$imgst);		
-	// else
-	//	$msg = setErrMsg("Personal profile could not be updated due to some technical issues. Please try later.".$imgst);
+	 else
+		$msg = setErrMsg("Personal profile could not be updated due to some technical issues. Please try later.".$imgst);
 }
 
 

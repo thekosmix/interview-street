@@ -78,7 +78,7 @@ class User{
 			
 			if($db->mysqli->affected_rows>0)
 			{
-				$last_user_id = mysqli_insert_id();
+				$last_user_id = $db->mysqli->insert_id;
 				return $last_user_id;
 			}else
 				return false;

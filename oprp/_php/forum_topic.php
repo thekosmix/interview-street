@@ -90,7 +90,7 @@ class Forum_Topic extends Company{
 		$result = $db->query($sql);
 		
 		if($db->mysqli->affected_rows>0){
-			return mysqli_insert_id();
+			return $db->mysqli->insert_id;
 		}else
 			return false;
 	}
