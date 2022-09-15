@@ -59,7 +59,7 @@
 			if($diff<0)
 			{
 				if($row['user_id'] == $user_id)
-					echo "--- <a href='upload_question.php?contest_value=".$row['contest_value']."'>Upload Question to this contest</a>";
+					echo "<a href='upload_question.php?contest_value=".$row['contest_value']."'>Upload Question to this contest</a>";
 				else
 					echo getString('username', 'user', 'user_id', $row['user_id'])."'s Contest <strong>".$row['contest_name']."</strong> will start in ".round(abs($diff), 2)." minutes";	
 			}
