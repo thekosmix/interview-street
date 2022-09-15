@@ -14,7 +14,7 @@ if(isset($_POST["submit"])){
 			
 	$application = new Application();
 	$application->recruiter_id 	= trim($id);
-	$application->cover_letter 	= trim($_POST['recruiter_id']);  
+	$application->cover_letter 	= trim($_POST['cover_letter']);  
 	
 	$applied = Application::insertApplication($application);
 	
