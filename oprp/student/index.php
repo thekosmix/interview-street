@@ -32,7 +32,7 @@ if(isset($_POST["submit"])){
 		$announce->recruiter_id	= $_POST['recruiter_id'];
 		
 		$inserted = Announcement::insertAnnouncement($announce);
-		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], "../_attachment/".mysqli_insert_id()."_".$_FILES['attachment']['name']);
+		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], "../_attachment/".$inserted."_".$_FILES['attachment']['name']);
 		
 		if($inserted)
 			$msg = setErrNotMsg("New announcement has been created.");		

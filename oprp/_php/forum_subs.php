@@ -58,7 +58,7 @@ class Forum_Subs{
 		$result = $db->query($sql);
 		
 		if($db->mysqli->affected_rows>0){
-			return true;
+			return $db->mysqli->insert_id;
 		}else
 			return false;
 	}

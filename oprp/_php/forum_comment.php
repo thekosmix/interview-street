@@ -52,11 +52,11 @@ class Forum_Comment{
 						'{$obj->content}', 
 						'{$obj->attachment}'
 						)";
-		//echo $sql;		
+			
 		$result = $db->query($sql);
 		if($db->mysqli->affected_rows>0){
-			Forum_Subs::mailComment($obj);
-			return true;
+		//	Forum_Subs::mailComment($obj);
+			return $db->mysqli->insert_id;
 		}else return false;
 	}
 	

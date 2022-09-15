@@ -63,7 +63,7 @@
     else if(PHP_OS == "Linux")
 	{
 		$path = getcwd().'/';	//	/opt/lampp/htdocs/online_compiler
-		$resource_limit = 'ulimit -t 2; ulimit -f 1366; ';
+		$resource_limit = 'ulimit -t 2; ulimit -f 3000; ';
 		$file_comp = 'diff -aq ';
 		$output_folder = $path.'_competition/output/';
 
@@ -110,7 +110,7 @@
 	else if(PHP_OS == "Darwin")
 	{
 		$path = getcwd().'/';	//	/opt/lampp/htdocs/online_compiler
-		$resource_limit = 'ulimit -t 2; ulimit -f 1366; ';
+		$resource_limit = 'ulimit -t 2; ulimit -f 3000; ';
 		$file_comp = 'diff -aq ';
 		$output_folder = $path.'_competition/output/';
 
