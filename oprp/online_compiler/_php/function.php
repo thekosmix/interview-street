@@ -143,56 +143,6 @@ function getQuestionByValue($que_value)
 		return null;
 }
 
-/*
-function login($username, $password)
-{
-	global $db;
-	$sql = "select * from user where username = '".$username."'";
-	
-	$result = $db->query($sql);
-	$row = mysqli_fetch_array($result);
-	
-	if(sha1($password) == $row['password'])
-	{
-		$_SESSION['username'] = $username;
-		$_SESSION['access'] = $row['access'];	
-		$_SESSION['user_id'] = $row['user_id'];
-		
-		if($_SESSION['access'] == "company")
-			header("Location: company_profile.php");
-		
-		return 1;
-	}
-	else
-		return 0;
-}
-
-
-
-function register($username, $password, $access)
-{
-	global $db;
-	$password = sha1($password);
-
-	$sql = "insert into user (username, password, access) values('".$username."', '".$password."','".$access."')";
-	$result = $db->query($sql);
-	
-	if($result)
-	{
-
-           
-		session_start();
-		$_SESSION['username'] = $username;
-		$_SESSION['access'] = $row['access'];
-		$_SESSION['user_id'] = mysqli_insert_id();
-		
-		return 1;
-	}
-	else
-		return 0;
-}
-
-*/
 
 function getuserdetailbyID($user_id)
 {

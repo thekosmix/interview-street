@@ -103,7 +103,7 @@ class Announcement{
 		
 		if($db->mysqli->affected_rows>0){
 			Student::mailAnnouncement($obj);
-			return true;
+			return $db->mysqli->insert_id;
 		}else
 			return false;
 	}

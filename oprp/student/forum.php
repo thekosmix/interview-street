@@ -24,9 +24,9 @@ if(isset($_POST["submit"])){
 		}
 		
 		$inserted = Forum_Topic::insertTopic($forum_topic);
-		Forum_Subs::addSubscription($inserted);
+		$subs_id = Forum_Subs::addSubscription($inserted);
 		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], 
-					"../_attachment/forum_topic/".mysqli_insert_id()."_".$_FILES['attachment']['name']);
+					"../_attachment/forum_topic/".$subs_id."_".$_FILES['attachment']['name']);
 		
 		if($inserted) $msg = setErrNotMsg("New topic has been created.");		
 		else $msg = setErrMsg("New topic could not be created. Please try later.");

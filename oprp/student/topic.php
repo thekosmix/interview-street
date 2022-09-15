@@ -13,7 +13,7 @@ if(isset($_POST["submit"])){
 		
 		$inserted = Forum_Comment::insertComment($forum_comment);
 		$uploaded = move_uploaded_file($_FILES['attachment']['tmp_name'], 
-					"../_attachment/forum_comment/".mysqli_insert_id()."_".$_FILES['attachment']['name']);
+					"../_attachment/forum_comment/".$inserted."_".$_FILES['attachment']['name']);
 	}
 }
 
