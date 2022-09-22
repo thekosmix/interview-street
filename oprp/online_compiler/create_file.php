@@ -8,10 +8,9 @@
 	$prog_content = $_POST['example_1'];
 	$input = $_POST['input'];
 	$comment = htmlspecialchars($_POST['comment']);	
-	$share = 1;
-	// $s=$_POST['share'];
-	// if($s[0] == 'sharecode')
-	// 	$share = 1;	
+	$share = 0;
+	if(isset($_POST['share']))
+	 	$share = 1;	
 	
 	if($ext == "")
 		header("Location: index.php?msg=Please select a prog lang");

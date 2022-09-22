@@ -29,10 +29,13 @@
 	<?php
 		$result = getSharedLinks();
 		echo "<table border='0' cellpadding='5' width='100%' class='normalTxt infotbl'>
-			<tr><th>Program</th><th>Language</th><th>Compile Time</th></tr>";
+			<tr><th>User</th><th>Program</th><th>Language</th><th>Compile Time</th></tr>";
 		while($row = mysqli_fetch_array($result))
 		{
-			echo "<tr><td width='150' class='contentLinks'>";
+			$info = Student::getDetailByID($row['user_id']);
+			echo "<tr>";
+			echo "<td><a href='../recruiter/cover_letter.php?id=".$row['user_id']."'>".$info->first_name."</a></td>";
+			echo "<td width='150' class='contentLinks'>";
 			if($row['link_name']!=NULL)
 				echo "<a href='view.php?link_value=".$row['link_value']."'>".$row['link_name']."</a>";
 			else

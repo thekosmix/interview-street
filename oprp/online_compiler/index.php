@@ -98,7 +98,7 @@ window.onload = selectsyntax;
     	<?php } ?>
         
         <?php if($que_value == null && isset($session->user_id))
-              echo "<tr><td colspan='2'><input type='checkbox' name='share[]' value='sharecode' />Share this code</td></tr>";
+              echo "<tr><td colspan='2'><input type='checkbox' name='share' value='sharecode' />Share this code</td></tr>";
 		?>
         
         <tr>
@@ -155,7 +155,7 @@ window.onload = selectsyntax;
              <textarea name="comment" cols="40" style="height: 150px; width: 100%;"></textarea></td></tr>
                  
 		<?php if(($que_value == null) && isset($session->user_id)) {  ?>
-        <tr><td colspan="2"><input type="checkbox" name="share[]" value="sharecode" />Share this code</td></tr>
+        <tr><td colspan="2"><input type="checkbox" name="share" value="sharecode" />Share this code</td></tr>
         <?php } ?>
 
     	<tr><td colspan="2"><input type="submit" name="submit" value="Submit" class="submitStyle"/></td></tr>
