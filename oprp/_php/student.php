@@ -222,10 +222,6 @@ class Student{
 		while($row = mysqli_fetch_array($result)){
 			$to = $row['email'];
 			@mail($to,$sub,$msg,$from);
-			//echo "<br/>".$to;
-			//echo "<br/>".$from;
-			//echo "<br/>".$sub;
-			//echo "<br/>".$msg;
 		}
 		
 		return true;

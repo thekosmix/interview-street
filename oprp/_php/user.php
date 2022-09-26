@@ -53,7 +53,7 @@ class User{
 			$sub = "Reset Password";
 			$link = ABS_PATH."newpass.php?id=".$row['user_id']."&link=".$row['password'];
 			$msg = "Please reset your password from the given below link. \n <a href='{$link}'>{$link}</a>";
-			//echo $msg;
+			
 			if(@mail($email,$sub,$msg,$from))	
 				return true;
 			else return false;	
@@ -101,7 +101,7 @@ class User{
 			$from = "From: New Password <no-reply@dce.edu>";
 			$sub = "New Password";
 			$msg = "Your password has been reset. New password is {$password}";
-			//echo $msg;
+			
 			@mail($to,$sub,$msg,$from);
 			
 			return true;

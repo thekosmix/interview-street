@@ -9,6 +9,7 @@
     $executable_ext = null;
 	$java_compiler = null;
 	$bash_compiler = null;
+	$awk_compiler = null;
 	$java = null;
 	$js_compiler = null;
 	$cpp_compiler = null;
@@ -92,13 +93,15 @@
 
 		$bf_compiler = 'bf ';
 
-                $fortran_compiler = 'gfortran -o';
+		$fortran_compiler = 'gfortran -o';
 
-                $cobol_compiler = 'cobc -o';
+		$cobol_compiler = 'cobc -o';
 
 		$bash_compiler = '"bash" ';
 
-                $scala_compiler = 'scalac ';
+		$awk_compiler = '"awk -f" ';
+
+		$scala_compiler = 'scalac ';
 		$scala = 'scala -cp ';
 		
 		$js_compiler = '"nodejs" ';
@@ -144,6 +147,8 @@
         $cobol_compiler = 'cobc -o';
 
 		$bash_compiler = '"zsh" ';
+
+		$awk_compiler = '"awk" -f ';
 
         $scala_compiler = 'scalac ';
 		$scala = 'scala -cp ';

@@ -220,6 +220,18 @@
                 $fin_time = microtime(true);
         }
 
+		else if($ext == "awk/")
+        {
+                $init_time = microtime(true);
+
+                if($input_file == null)
+                        $output = shell_exec($resource_limit.$awk_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
+                else
+                        $output = shell_exec($resource_limit.$awk_compiler.$path.$ext.$file.' '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
+
+                $fin_time = microtime(true);
+        }
+
 	else if($ext == "bf/")
 	{		
 		$init_time = microtime(true);

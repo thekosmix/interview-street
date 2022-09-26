@@ -121,7 +121,7 @@ window.onload = selectsyntax;
         <tr>
         <td valign="top">
             <select size="10" name="prog_lang" id="prog_lang" onchange="selectsyntax();">
-            	<option value="awk">Awk</option>
+            	<option value="awk" style="font-weight: bold">Awk</option>
             	<option value="bash" style="font-weight: bold">Bash</option>
                 <option value="bf" style="font-weight: bold">Brainf**k</option>
                 <option value="c" selected="selected" style="font-weight: bold">C</option>
