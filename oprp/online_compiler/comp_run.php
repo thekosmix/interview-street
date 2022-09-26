@@ -368,7 +368,7 @@
 		unlink($ext.$cobol_file_name.$executable_ext);
 	}
 
-//	unlink($ext.$file);
+	unlink($ext.$file);
 	
 	if($input_file != "")
 		unlink($ext.$input_file);
