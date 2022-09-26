@@ -12,11 +12,6 @@ if(isset($_POST["submit"])){
 	$sub  = "Resume Manager [Recruiter] - ".$_POST['subject'];
 	$to   = "garg.sahil25@gmail.com";
 	
-	/*echo $to."<br/>";
-	echo $from."<br/>";
-	echo $sub."<br/>";
-	echo $content."<br/>";*/
-	
 	$sent = @mail($to,$sub,$content,$from);
 		
 	if($sent) $msg = setErrNotMsg("Mail has been sent successfully.");		
