@@ -9,3 +9,17 @@
 </div>
 <div id="footer"></div>
 </div>
+
+<script>
+    Smooch.init({
+        appId: '579842287d27c8050166ea3c',
+        customText: {
+            headerText: '⚫ Let\'s chat',
+//            inputPlaceholder: 'Say something funny...',
+//            sendButtonText: 'Send',
+            introductionText: 'Ping me! I might be online right now',
+        }
+    }).then(function() {
+        // Your code after init is complete
+    }); 
+</script>   
