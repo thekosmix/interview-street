@@ -1,8 +1,8 @@
 </td></tr>
 <tr height="10px"><td colspan="3">&nbsp;</td></tr>
 <tr height="50px"><td class="foot" colspan="3">
-<div align="right">&copy; 2010. All rights reserved.<br/>For any other queries, contact 
-	<a href="http://www.strollup.in/">StrollUp</a></div>
+<div align="right">&copy; 2022. All rights reserved.<br/>For any other queries, contact 
+	<a href="https://www.thekosmix.com/">Siddharth</a></div>
 </td></tr>
 
 </table>
