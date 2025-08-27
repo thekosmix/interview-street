@@ -14,13 +14,12 @@ class User{
 	public static function authenticated($uname="", $passw=""){
 		
 		global $db;
-		$uname = mysqli_real_escape_string($db->mysqli, $uname);
-		$passw = sha1($passw);		
-		$sql = "SELECT * FROM user WHERE username = '{$uname}' AND password = '{$passw}' LIMIT 1";
-		$result = $db->query($sql);
+		$passw = sha1($passw); 		
+		$sql = "SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1";
+		$result = $db->query($sql, [$uname, $passw]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -42,13 +41,12 @@ class User{
 	public static function sendNewPassLink($uname="", $email=""){
 	
 		global $db;
-		$uname = mysqli_real_escape_string($db->mysqli, $uname);
-		$sql = "SELECT * FROM user WHERE username = '{$uname}' AND email = '{$email}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM user WHERE username = ? AND email = ?";
+		$result = $db->query($sql, [$uname, $email]);
 
-		if(mysqli_num_rows($result)>0){
+		if($db->num_rows($result)>0){
 			
-			$row = mysqli_fetch_array($result);
+			$row = $db->fetch_array($result);
 			$from = "From: no-reply@dce.edu";
 			$sub = "Reset Password";
 			$link = ABS_PATH."newpass.php?id=".$row['user_id']."&link=".$row['password'];
@@ -67,18 +65,18 @@ class User{
 		global $db;
 		global $session;
 		
-		$sql = "SELECT * FROM user WHERE username = '{$obj->uname}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM user WHERE username = ?";
+		$result = $db->query($sql, [$obj->uname]);
 		
-		if(mysqli_num_rows($result)==0){
+		if($db->num_rows($result)==0){
 			$sql = "INSERT INTO user (username, email, password, access) 
-					VALUES ('{$obj->uname}', '{$obj->email}', '{$obj->passw}', '{$obj->access}' )";
+					VALUES (?, ?, ?, ?)";
 					
-			$result = $db->query($sql);
+			$result = $db->query($sql, [$obj->uname, $obj->email, $obj->passw, $obj->access]);
 			
-			if($db->mysqli->affected_rows>0)
+			if($db->affected_rows($result)>0)
 			{
-				$last_user_id = $db->mysqli->insert_id;
+				$last_user_id = $db->insert_id();
 				return $last_user_id;
 			}else
 				return false;
@@ -90,13 +88,12 @@ class User{
 	public static function sendNewPass($user_id, $password){
 	
 		global $db;
-		$uname = mysqli_real_escape_string($db->mysqli, $uname);
-		$sql = "SELECT * FROM user WHERE user_id = '{$user_id}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM user WHERE user_id = ?";
+		$result = $db->query($sql, [$user_id]);
 
-		if(mysqli_num_rows($result)>0){
+		if($db->num_rows($result)>0){
 			
-			$row = mysqli_fetch_array($result);
+			$row = $db->fetch_array($result);
 			$to = $row['email'];
 			$from = "From: New Password <no-reply@dce.edu>";
 			$sub = "New Password";
@@ -114,12 +111,10 @@ class User{
 	public static function validateLink($id="", $link=""){
 		
 		global $db;
-		$id = mysqli_real_escape_string($db->mysqli, $id);
-		$link = mysqli_real_escape_string($db->mysqli, $link);
-		$sql = "SELECT * FROM user WHERE user_id = '{$id}' AND password = '{$link}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM user WHERE user_id = ? AND password = ?";
+		$result = $db->query($sql, [$id, $link]);
 		
-		if(mysqli_num_rows($result)>0)
+		if($db->num_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -129,12 +124,11 @@ class User{
 	public static function setNewPass($id="", $passw=""){
 
 		global $db;
-		$id = mysqli_real_escape_string($db->mysqli, $id);
 		$passw_enc = sha1($passw);
-		$sql = "UPDATE user SET password = '{$passw_enc}' WHERE user_id = '{$id}'";
-		$result = $db->query($sql);
+		$sql = "UPDATE user SET password = ? WHERE user_id = ?";
+		$result = $db->query($sql, [$passw_enc, $id]);
 		
-		if($db->mysqli->affected_rows>0){
+		if($db->affected_rows($result)>0){
 			self::sendNewPass($id, $passw);
 			return true;
 		}else
@@ -145,9 +139,9 @@ class User{
 	public static function getUsernameByID($user_id=""){
 
 		global $db;
-		$sql = "SELECT * FROM user WHERE user_id = '{$user_id}'";
-		$result = $db->query($sql);
-		$row = mysqli_fetch_array($result);
+		$sql = "SELECT * FROM user WHERE user_id = ?";
+		$result = $db->query($sql, [$user_id]);
+		$row = $db->fetch_array($result);
 		
 		return $row['username'];
 		
@@ -156,11 +150,11 @@ class User{
 	public static function getDetailByID($id){
 		
 		global $db;		
-		$sql = "SELECT * FROM user WHERE user_id = '{$id}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM user WHERE user_id = ? LIMIT 1";
+		$result = $db->query($sql, [$id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -172,21 +166,21 @@ class User{
 		
 		global $db;
 		global $session;
-		$sql = "SELECT * FROM user WHERE username = '{$uname}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM user WHERE username = ?";
+		$result = $db->query($sql, [$uname]);
 		$flag=1;
 		
-		if(mysqli_num_rows($result)>0){
-			$row = mysqli_fetch_array($result);
+		if($db->num_rows($result)>0){
+			$row = $db->fetch_array($result);
 			if($row['user_id'] != $session->user_id)
 				$flag=0;
 		}
 		
 		if($flag==1){
-			$sql = "UPDATE user SET username  = '{$uname}' WHERE user_id = '{$session->user_id}'";
-			$result = $db->query($sql);
+			$sql = "UPDATE user SET username  = ? WHERE user_id = ?";
+			$result = $db->query($sql, [$uname, $session->user_id]);
 		
-			if($db->mysqli->affected_rows>0)
+			if($db->affected_rows($result)>0)
 				return true;
 			else
 				return false;
@@ -198,21 +192,21 @@ class User{
 		
 		global $db;
 		global $session;
-		$sql = "SELECT * FROM user WHERE email = '{$email}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM user WHERE email = ?";
+		$result = $db->query($sql, [$email]);
 		$flag=1;
 		
-		if(mysqli_num_rows($result)>0){
-			$row = mysqli_fetch_array($result);
+		if($db->num_rows($result)>0){
+			$row = $db->fetch_array($result);
 			if($row['user_id'] != $session->user_id)
 				$flag=0;
 		}
 		
 		if($flag==1){
-			$sql = "UPDATE user SET email = '{$email}' WHERE user_id = '{$session->user_id}'";
-			$result = $db->query($sql);
+			$sql = "UPDATE user SET email = ? WHERE user_id = ?";
+			$result = $db->query($sql, [$email, $session->user_id]);
 		
-			if($db->mysqli->affected_rows>0)
+			if($db->affected_rows($result)>0)
 				return true;
 			else
 				return false;

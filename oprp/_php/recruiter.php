@@ -21,11 +21,11 @@ class Recruiter extends Company{
 	
 	public static function getDetailByID($user_id){
 		global $db;
-		$sql = "SELECT * FROM recruiter NATURAL JOIN company WHERE recruiter_id = '{$user_id}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM recruiter NATURAL JOIN company WHERE recruiter_id = ? LIMIT 1";
+		$result = $db->query($sql, [$user_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -58,9 +58,9 @@ class Recruiter extends Company{
 	public static function getCompNameByID($user_id=""){
 
 		global $db;
-		$sql = "SELECT * FROM recruiter NATURAL JOIN company WHERE recruiter_id = '{$user_id}'";
-		$result = $db->query($sql);
-		$row = mysqli_fetch_array($result);
+		$sql = "SELECT * FROM recruiter NATURAL JOIN company WHERE recruiter_id = ?";
+		$result = $db->query($sql, [$user_id]);
+		$row = $db->fetch_array($result);
 		return $row['name'];
 		
 	}
@@ -71,19 +71,19 @@ class Recruiter extends Company{
 		global $db;
 		global $session;
 		$sql = "UPDATE recruiter SET 
-					arrival_date 	= '{$obj->arrival_date}',
-					app_date 		= '{$obj->app_date}',
-					branches 		= '{$obj->branches}',
-					min_score 		= '{$obj->min_score}',
-					for_year 		= '{$obj->for_year}',
-					job_description = '{$obj->job_description}',
-					contact 		= '{$obj->contact}',
-					notes 			= '{$obj->notes}' 
-				WHERE recruiter_id = '{$session->user_id}'";
+					arrival_date 	= ?,
+					app_date 		= ?,
+					branches 		= ?,
+					min_score 		= ?,
+					for_year 		= ?,
+					job_description = ?,
+					contact 		= ?,
+					notes 			= ? 
+				WHERE recruiter_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->arrival_date, $obj->app_date, $obj->branches, $obj->min_score, $obj->for_year, $obj->job_description, $obj->contact, $obj->notes, $session->user_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -93,21 +93,21 @@ class Recruiter extends Company{
 		
 		global $db;
 		$sql = "UPDATE recruiter SET 
-					arrival_date 	= '{$obj->arrival_date}',	
-					grade 			= '{$obj->grade}',
-					status 			= '{$obj->status}',
-					app_date 		= '{$obj->app_date}',
-					branches 		= '{$obj->branches}',
-					min_score 		= '{$obj->min_score}',
-					for_year 		= '{$obj->for_year}',
-					job_description = '{$obj->job_description}',
-					contact 		= '{$obj->contact}',
-					notes 			= '{$obj->notes}'
-				WHERE recruiter_id = '{$id}'";
+					arrival_date 	= ?,	
+					grade 			= ?,
+					status 			= ?,
+					app_date 		= ?,
+					branches 		= ?,
+					min_score 		= ?,
+					for_year 		= ?,
+					job_description = ?,
+					contact 		= ?,
+					notes 			= ?
+				WHERE recruiter_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->arrival_date, $obj->grade, $obj->status, $obj->app_date, $obj->branches, $obj->min_score, $obj->for_year, $obj->job_description, $obj->contact, $obj->notes, $id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -125,23 +125,10 @@ class Recruiter extends Company{
 		$sql = "INSERT INTO recruiter 
 				(recruiter_id, company_id, arrival_date, grade, status, app_date, branches,
 				 min_score, for_year, job_description, contact, notes) 
-				VALUES (
-						'{$obj->recruiter_id}',
-						'{$obj->company_id}',
-						'{$obj->arrival_date}', 
-						'{$obj->grade}', 
-						'1', 
-						'{$obj->app_date}', 
-						'{$obj->branches}', 
-						'{$obj->min_score}', 
-						'{$obj->for_year}', 
-						'{$obj->job_description}', 
-						'{$obj->contact}', 
-						'{$obj->notes}'
-						)";
+				VALUES (?, ?, ?, ?, '1', ?, ?, ?, ?, ?, ?, ?)";
 				
-		$result = $db->query($sql);
-		if($db->mysqli->affected_rows>0){
+		$result = $db->query($sql, [$obj->recruiter_id, $obj->company_id, $obj->arrival_date, $obj->grade, $obj->app_date, $obj->branches, $obj->min_score, $obj->for_year, $obj->job_description, $obj->contact, $obj->notes]);
+		if($db->affected_rows($result)>0){
 			return true;
 		}else
 			return false;
@@ -155,7 +142,7 @@ class Recruiter extends Company{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -167,15 +154,15 @@ class Recruiter extends Company{
 		global $db;
 		$sql = "SELECT * FROM recruiter NATURAL JOIN company
 				WHERE status = '1' 
-				AND branches LIKE '%{$branch}%'
-				AND min_score <= {$score}
-				AND for_year = '{$year}'
+				AND branches LIKE ?
+				AND min_score <= ?
+				AND for_year = ?
 				ORDER BY arrival_date DESC";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, ["%{$branch}%", $score, $year]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -187,13 +174,13 @@ class Recruiter extends Company{
 		global $db;
 		$sql = "SELECT * FROM recruiter NATURAL JOIN company
 				WHERE status = '1' AND
-				arrival_date BETWEEN '{$date1}' AND '{$date2}'
+				arrival_date BETWEEN ? AND ?
 				ORDER BY arrival_date";
 		//echo $sql;
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$date1, $date2]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -207,15 +194,15 @@ class Recruiter extends Company{
 		global $session;
 		$sql = "SELECT * FROM recruiter NATURAL JOIN company
 				WHERE status = '1'
-				AND recruiter_id = '{$recruiter_id}'
-				AND branches LIKE '%{$branch}%'
-				AND min_score <= {$score}
-				AND for_year = '{$year}'";
+				AND recruiter_id = ?
+				AND branches LIKE ?
+				AND min_score <= ?
+				AND for_year = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$recruiter_id, "%{$branch}%", $score, $year]);
 
-		if(mysqli_num_rows($result)>0){
-			$row = mysqli_fetch_array($result);
+		if($db->num_rows($result)>0){
+			$row = $db->fetch_array($result);
 			return Application::collegePolicy($session->user_id, $row['grade']);			
 		}else
 			return false;

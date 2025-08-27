@@ -12,11 +12,11 @@ class Branch{
 	
 	public static function getDetailByCode($code){
 		global $db;
-		$sql = "SELECT * FROM branches WHERE branch_code = '{$code}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM branches WHERE branch_code = ? LIMIT 1";
+		$result = $db->query($sql, [$code]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -37,13 +37,13 @@ class Branch{
 		
 		global $db;
 		$sql = "UPDATE branches SET 
-					branch_name   = '{$obj->branch_name}',
-					branch_course = '{$obj->branch_course}'
-				WHERE branch_code = '{$code}'";
+					branch_name   = ?,
+					branch_course = ?
+				WHERE branch_code = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->branch_name, $obj->branch_course, $code]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -51,10 +51,10 @@ class Branch{
 	
 	public static function getNameByCode($code){
 		global $db;
-		$sql = "SELECT * FROM branches WHERE branch_code = '{$code}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM branches WHERE branch_code = ? LIMIT 1";
+		$result = $db->query($sql, [$code]);
 		$object_array = array();
-		$row = mysqli_fetch_array($result);
+		$row = $db->fetch_array($result);
 		
 		return $row['branch_name'];
 	}
@@ -70,11 +70,11 @@ class Branch{
 	
 	public static function getDetailByCourse($course){
 		global $db;
-		$sql = "SELECT * FROM branches WHERE branch_course = '{$course}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM branches WHERE branch_course = ?";
+		$result = $db->query($sql, [$course]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -89,7 +89,7 @@ class Branch{
 		$result = $db->query($sql);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		

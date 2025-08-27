@@ -18,12 +18,12 @@ class Forum_Topic extends Company{
 		global $db;
 		$sql = "SELECT * FROM forum_topic LEFT JOIN company 
 				ON forum_topic.company_id = company.company_id 
-				WHERE topic_id = '{$topic_id}' LIMIT 1";
+				WHERE topic_id = ? LIMIT 1";
 		//echo $sql;
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$topic_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -53,15 +53,25 @@ class Forum_Topic extends Company{
 		global $db;
 		$start = ($page-1)*$num;
 		if($start<0) return false;
+
+		$params = [];
 		$sql = "SELECT * FROM forum_topic LEFT JOIN company ON forum_topic.company_id = company.company_id WHERE 1 ";
-		if($topic_type != 'all') $sql .= "AND topic_type = '{$topic_type}' ";
-		if($company_id != 'all') $sql .= "AND forum_topic.company_id = '{$company_id}' ";
-		$sql .= " ORDER BY timestamp DESC LIMIT {$start}, {$num}"; 
-		//echo $sql;
-		$result = $db->query($sql);
+		if($topic_type != 'all'){
+			$sql .= "AND topic_type = ? ";
+			$params[] = $topic_type;
+		}
+		if($company_id != 'all'){
+			$sql .= "AND forum_topic.company_id = ? ";
+			$params[] = $company_id;
+		}
+		$sql .= " ORDER BY timestamp DESC LIMIT ?, ?"; 
+		$params[] = $start;
+		$params[] = $num;
+
+		$result = $db->query($sql, $params);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 
@@ -78,19 +88,12 @@ class Forum_Topic extends Company{
 		
 		$sql = "INSERT INTO forum_topic 
 				(heading, content, attachment, topic_type, company_id, user_id)
-				VALUES (
-						'{$obj->heading}', 
-						'{$obj->content}', 
-						'{$obj->attachment}', 
-						'{$obj->topic_type}', 
-						'{$obj->company_id}', 
-						'{$obj->user_id}'
-						)";
+				VALUES (?, ?, ?, ?, ?, ?)";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->heading, $obj->content, $obj->attachment, $obj->topic_type, $obj->company_id, $obj->user_id]);
 		
-		if($db->mysqli->affected_rows>0){
-			return $db->mysqli->insert_id;
+		if($db->affected_rows($result)>0){
+			return $db->insert_id();
 		}else
 			return false;
 	}
@@ -101,9 +104,9 @@ class Forum_Topic extends Company{
 		global $session;
 		
 		$user_id = $session->user_id;
-		$sql = "DELETE FROM forum_topic WHERE topic_id='{$topic_id}' AND user_id='{$user_id}'";
-		$result = $db->query($sql);
-		if($db->mysqli->affected_rows>0){
+		$sql = "DELETE FROM forum_topic WHERE topic_id=? AND user_id=?";
+		$result = $db->query($sql, [$topic_id, $user_id]);
+		if($db->affected_rows($result)>0){
 			return true;
 		}else
 			return false;

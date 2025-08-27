@@ -39,11 +39,11 @@ class Academics_BE{
 	
 	public static function getDetailByID($user_id){
 		global $db;
-		$sql = "SELECT * FROM academic_be WHERE student_id = '{$user_id}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM academic_be WHERE student_id = ? LIMIT 1";
+		$result = $db->query($sql, [$user_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -93,27 +93,27 @@ class Academics_BE{
 		global $db;
 		global $session;
 		$sql = "UPDATE academic_be SET 
-					entrance_category = '{$obj->entrance_category}',
-					entrance   = '{$obj->entrance}',
-					rank  	   = '{$obj->rank}',
-					school_10  = '{$obj->school_10}',
-					board_10   = '{$obj->board_10}',
-					year_10    = '{$obj->year_10}',
-					subject_10 = '{$obj->subject_10}',
-					agg_10     = '{$obj->agg_10}',
-					img_10     = '{$obj->img_10}',
-					school_12  = '{$obj->school_12}',
-					board_12   = '{$obj->board_12}',
-					year_12    = '{$obj->year_12}',
-					subject_12 = '{$obj->subject_12}',
-					agg_12 	   = '{$obj->agg_12}',
-					img_12     = '{$obj->img_12}',
-					backlog_reason = '{$obj->backlog_reason}'
-				WHERE student_id = '{$session->user_id}'";
+				entrance_category = ?,
+				entrance   = ?,
+				rank  	   = ?,
+				school_10  = ?,
+				board_10   = ?,
+				year_10    = ?,
+				subject_10 = ?,
+				agg_10     = ?,
+				img_10     = ?,
+				school_12  = ?,
+				board_12   = ?,
+				year_12    = ?,
+				subject_12 = ?,
+				agg_12 	   = ?,
+				img_12     = ?,
+				backlog_reason = ?
+			WHERE student_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->entrance_category, $obj->entrance, $obj->rank, $obj->school_10, $obj->board_10, $obj->year_10, $obj->subject_10, $obj->agg_10, $obj->img_10, $obj->school_12, $obj->board_12, $obj->year_12, $obj->subject_12, $obj->agg_12, $obj->img_12, $obj->backlog_reason, $session->user_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -123,38 +123,38 @@ class Academics_BE{
 		
 		global $db;
 		$sql = "UPDATE academic_be SET 
-					sem_1 = '{$obj->sem_1}',
-					sem_2 = '{$obj->sem_2}',
-					sem_3 = '{$obj->sem_3}',
-					sem_4 = '{$obj->sem_4}',
-					sem_5 = '{$obj->sem_5}',
-					sem_6 = '{$obj->sem_6}',
-					sem_7 = '{$obj->sem_7}',
-					sem_8 = '{$obj->sem_8}',
-					agg   = '{$obj->agg}',
-					dept_rank = '{$obj->dept_rank}',
-					backlog = '{$obj->backlog}',
-					entrance_category = '{$obj->entrance_category}',
-					entrance   = '{$obj->entrance}',
-					rank  	   = '{$obj->rank}',
-					school_10  = '{$obj->school_10}',
-					board_10   = '{$obj->board_10}',
-					year_10    = '{$obj->year_10}',
-					subject_10 = '{$obj->subject_10}',
-					agg_10     = '{$obj->agg_10}',
-					img_10     = '{$obj->img_10}',
-					school_12  = '{$obj->school_12}',
-					board_12   = '{$obj->board_12}',
-					year_12    = '{$obj->year_12}',
-					subject_12 = '{$obj->subject_12}',
-					agg_12 	   = '{$obj->agg_12}',
-					img_12     = '{$obj->img_12}',
-					backlog_reason = '{$obj->backlog_reason}'
-				WHERE student_id = '{$id}'";
+					sem_1 = ?,
+					sem_2 = ?,
+					sem_3 = ?,
+					sem_4 = ?,
+					sem_5 = ?,
+					sem_6 = ?,
+					sem_7 = ?,
+					sem_8 = ?,
+					agg   = ?,
+					dept_rank = ?,
+					backlog = ?,
+					entrance_category = ?,
+					entrance   = ?,
+					rank  	   = ?,
+					school_10  = ?,
+					board_10   = ?,
+					year_10    = ?,
+					subject_10 = ?,
+					agg_10     = ?,
+					img_10     = ?,
+					school_12  = ?,
+					board_12   = ?,
+					year_12    = ?,
+					subject_12 = ?,
+					agg_12 	   = ?,
+					img_12     = ?,
+					backlog_reason = ?
+				WHERE student_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->sem_1, $obj->sem_2, $obj->sem_3, $obj->sem_4, $obj->sem_5, $obj->sem_6, $obj->sem_7, $obj->sem_8, $obj->agg, $obj->dept_rank, $obj->backlog, $obj->entrance_category, $obj->entrance, $obj->rank, $obj->school_10, $obj->board_10, $obj->year_10, $obj->subject_10, $obj->agg_10, $obj->img_10, $obj->school_12, $obj->board_12, $obj->year_12, $obj->subject_12, $obj->agg_12, $obj->img_12, $obj->backlog_reason, $id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -168,15 +168,11 @@ class Academics_BE{
 		
 		$sql = "INSERT INTO academic_be 
 				(student_id, branch, year_of_grad) 
-				VALUES (
-						'{$obj->student_id}', 
-						'{$obj->branch}', 
-						'{$obj->year_of_grad}'
-						)";
+				VALUES (?, ?, ?)";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->student_id, $obj->branch, $obj->year_of_grad]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -184,11 +180,11 @@ class Academics_BE{
 	
 	public static function getDetailByBranch($branch){
 		global $db;
-		$sql = "SELECT * FROM academic_be WHERE branch = '{$branch}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM academic_be WHERE branch = ?";
+		$result = $db->query($sql, [$branch]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		

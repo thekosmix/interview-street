@@ -21,16 +21,29 @@ class Announcement{
 		global $db;
 		$start = ($page-1)*$num;
 		if($start<0) return false;
+		
+		$params = [];
 		$sql = "SELECT * FROM announcement WHERE status = '1' ";
-		if($year != 'all') $sql .= "AND year LIKE '%,{$year},%' ";
-		if($branch_id != 'all') $sql .= "AND branch LIKE '%,{$branch_id},%' ";
-		if($recruiter_id != 'all') $sql .= "AND recruiter_id = '{$recruiter_id}' ";
-		$sql .= " ORDER BY announce_date DESC LIMIT {$start}, {$num}"; 
-		//echo $sql;
-		$result = $db->query($sql);
+		if($year != 'all'){
+			$sql .= "AND year LIKE ? ";
+			$params[] = "%,{$year},%";
+		}
+		if($branch_id != 'all'){
+			$sql .= "AND branch LIKE ? ";
+			$params[] = "%,{$branch_id},%";
+		}
+		if($recruiter_id != 'all'){
+			$sql .= "AND recruiter_id = ? ";
+			$params[] = $recruiter_id;
+		}
+		$sql .= " ORDER BY announce_date DESC LIMIT ?, ?"; 
+		$params[] = $start;
+		$params[] = $num;
+
+		$result = $db->query($sql, $params);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 
@@ -48,12 +61,12 @@ class Announcement{
 					WHERE status = '1' 
 					ORDER BY announce_date DESC
 					)s
-				WHERE rownum > {$num}*{$page}
-				AND rownum <= {$num}*({$page}+1)";   
-		$result = $db->query($sql);
+				WHERE rownum > ?*?
+				AND rownum <= ?*(?+1)";   
+		$result = $db->query($sql, [$num, $page, $num, $page]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 
@@ -89,21 +102,13 @@ class Announcement{
 		$is_recruiter_id = empty($obj->recruiter_id) ? false : true;
 		$sql = "INSERT INTO announcement 
 				(heading, content, attachment, creator_id, creator_access, year, branch, recruiter_id) 
-				VALUES (
-						'{$obj->heading}', 
-						'{$obj->content}', 
-						'{$obj->attachment}', 
-						'{$obj->creator_id}', 
-						'{$obj->creator_access}', 
-						'{$obj->year}', 
-						'{$obj->branch}',";
-		$sql = $sql . (($is_recruiter_id) ? '{$obj->recruiter_id} )' : "NULL )");
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->heading, $obj->content, $obj->attachment, $obj->creator_id, $obj->creator_access, $obj->year, $obj->branch, $obj->recruiter_id]);
 		
-		if($db->mysqli->affected_rows>0){
+		if($db->affected_rows($result)>0){
 			Student::mailAnnouncement($obj);
-			return $db->mysqli->insert_id;
+			return $db->insert_id();
 		}else
 			return false;
 	}
@@ -114,13 +119,13 @@ class Announcement{
 		global $db;
 		global $session;
 		$sql = "DELETE FROM announcement 
-				WHERE announce_id = {$announce_id}
-				AND creator_id = {$session->user_id}
-				AND creator_access = {$session->access}";
+				WHERE announce_id = ?
+				AND creator_id = ?
+				AND creator_access = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$announce_id, $session->user_id, $session->access]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -131,11 +136,11 @@ class Announcement{
 		global $db;
 		
 		$sql = "DELETE FROM announcement 
-				WHERE announce_id = {$announce_id}";
+				WHERE announce_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$announce_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;

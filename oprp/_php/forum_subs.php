@@ -11,11 +11,11 @@ class Forum_Subs{
 	/*
 	public static function getDetailByID($user_id){
 		global $db;
-		$sql = "SELECT * FROM recruiter WHERE recruiter_id = '{$user_id}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM recruiter WHERE recruiter_id = ? LIMIT 1";
+		$result = $db->query($sql, [$user_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -53,12 +53,12 @@ class Forum_Subs{
 		$user_id = $session->user_id;
 		
 		$sql = "INSERT INTO forum_subs (topic_id, user_id) 
-				VALUES ('{$topic_id}', '{$user_id}')";
+				VALUES (?, ?)";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$topic_id, $user_id]);
 		
-		if($db->mysqli->affected_rows>0){
-			return $db->mysqli->insert_id;
+		if($db->affected_rows($result)>0){
+			return $db->insert_id();
 		}else
 			return false;
 	}
@@ -69,9 +69,9 @@ class Forum_Subs{
 		global $session;
 		
 		$user_id = $session->user_id;
-		$sql = "SELECT * FROM forum_subs WHERE topic_id='{$topic_id}' AND user_id='{$user_id}'";
-		$result = $db->query($sql);
-		if(mysqli_num_rows($result)>0){
+		$sql = "SELECT * FROM forum_subs WHERE topic_id=? AND user_id=?";
+		$result = $db->query($sql, [$topic_id, $user_id]);
+		if($db->num_rows($result)>0){
 			return true;
 		}else
 			return false;
@@ -83,10 +83,10 @@ class Forum_Subs{
 		global $session;
 		
 		$user_id = $session->user_id;
-		$sql = "DELETE FROM forum_subs WHERE topic_id='{$topic_id}' AND user_id='{$user_id}'";
-		$result = $db->query($sql);
+		$sql = "DELETE FROM forum_subs WHERE topic_id=? AND user_id=?";
+		$result = $db->query($sql, [$topic_id, $user_id]);
 		
-		if($db->mysqli->affected_rows>0){
+		if($db->affected_rows($result)>0){
 			return true;
 		}else
 			return false;
@@ -95,14 +95,14 @@ class Forum_Subs{
 	public static function mailComment($obj){
 		global $db;
 		
-		$sql = "SELECT * FROM forum_topic NATURAL JOIN user WHERE topic_id = '{$obj->topic_id}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM forum_topic NATURAL JOIN user WHERE topic_id = ?";
+		$result = $db->query($sql, [$obj->topic_id]);
 		
 		$from = "From: Comment <no-reply@dce.edu>";
 		$sub = "New Comment";
 		$msg = "{$obj->content}";
 		
-		while($row = mysqli_fetch_array($result)){
+		while($row = $db->fetch_array($result)){
 			$to = $row['email'];
 			@mail($to,$sub,$msg,$from);
 		}

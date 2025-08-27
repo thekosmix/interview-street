@@ -30,11 +30,11 @@ class Student{
 	
 	public static function getDetailByID($user_id){
 		global $db;
-		$sql = "SELECT * FROM student WHERE student_id = '{$user_id}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM student WHERE student_id = ? LIMIT 1";
+		$result = $db->query($sql, [$user_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -73,9 +73,9 @@ class Student{
 	public static function getFullNameByID($user_id=""){
 
 		global $db;
-		$sql = "SELECT * FROM student WHERE student_id = '{$user_id}'";
-		$result = $db->query($sql);
-		$row = mysqli_fetch_array($result);
+		$sql = "SELECT * FROM student WHERE student_id = ?";
+		$result = $db->query($sql, [$user_id]);
+		$row = $db->fetch_array($result);
 		$name = $row['first_name'];
 		if(!empty($row['middle_name'])) $name .= " ".$row['middle_name'];
 		$name .= " ".$row['last_name'];
@@ -87,9 +87,9 @@ class Student{
 	public static function getImageTypeByID($user_id=""){
 
 		global $db;
-		$sql = "SELECT * FROM student WHERE student_id = '{$user_id}'";
-		$result = $db->query($sql);
-		$row = mysqli_fetch_array($result);
+		$sql = "SELECT * FROM student WHERE student_id = ?";
+		$result = $db->query($sql, [$user_id]);
+		$row = $db->fetch_array($result);
 		return $row['image_type'];
 		
 	}
@@ -97,9 +97,9 @@ class Student{
 	public static function getCourseByID($user_id=""){
 
 		global $db;
-		$sql = "SELECT * FROM student WHERE student_id = '{$user_id}'";
-		$result = $db->query($sql);
-		$row = mysqli_fetch_array($result);
+		$sql = "SELECT * FROM student WHERE student_id = ?";
+		$result = $db->query($sql, [$user_id]);
+		$row = $db->fetch_array($result);
 		return $row['course'];
 		
 	}
@@ -109,27 +109,27 @@ class Student{
 		global $db;
 		global $session;
 		$sql = "UPDATE student SET 
-					first_name     	  = '{$obj->first_name}',
-					middle_name       = '{$obj->middle_name}',
-					last_name     	  = '{$obj->last_name}',
-					dob     		  = '{$obj->dob}',
-					sex     		  = '{$obj->sex}',
-					category     	  = '{$obj->category}',
-					guardian_name     = '{$obj->guardian_name}',
-					local_address 	  = '{$obj->local_address}',
-					permanent_address = '{$obj->permanent_address}',
-					phone_1 		  = '{$obj->phone_1}',
-					phone_2 		  = '{$obj->phone_2}',
-					mobile 			  = '{$obj->mobile}',
-					home_town         = '{$obj->home_town}',
-					home_state        = '{$obj->home_state}',
-					language          = '{$obj->language}',
-					image_type        = '{$obj->image_type}'
-				WHERE student_id = '{$session->user_id}'";
+					first_name     	  = ?,
+					middle_name       = ?,
+					last_name     	  = ?,
+					dob     		  = ?,
+					sex     		  = ?,
+					category     	  = ?,
+					guardian_name     = ?,
+					local_address 	  = ?,
+					permanent_address = ?,
+					phone_1 		  = ?,
+					phone_2 		  = ?,
+					mobile 			  = ?,
+					home_town         = ?,
+					home_state        = ?,
+					language          = ?,
+					image_type        = ?
+				WHERE student_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->first_name, $obj->middle_name, $obj->last_name, $obj->dob, $obj->sex, $obj->category, $obj->guardian_name, $obj->local_address, $obj->permanent_address, $obj->phone_1, $obj->phone_2, $obj->mobile, $obj->home_town, $obj->home_state, $obj->language, $obj->image_type, $session->user_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -139,27 +139,27 @@ class Student{
 		
 		global $db;
 		$sql = "UPDATE student SET 
-					first_name     	  = '{$obj->first_name}',
-					middle_name       = '{$obj->middle_name}',
-					last_name     	  = '{$obj->last_name}',
-					dob     		  = '{$obj->dob}',
-					sex     		  = '{$obj->sex}',
-					category     	  = '{$obj->category}',
-					guardian_name     = '{$obj->guardian_name}',
-					local_address 	  = '{$obj->local_address}',
-					permanent_address = '{$obj->permanent_address}',
-					phone_1 		  = '{$obj->phone_1}',
-					phone_2 		  = '{$obj->phone_2}',
-					mobile 			  = '{$obj->mobile}',
-					home_town         = '{$obj->home_town}',
-					home_state        = '{$obj->home_state}',
-					language          = '{$obj->language}',
-					image_type        = '{$obj->image_type}'
-				WHERE student_id = '{$id}'";
+					first_name     	  = ?,
+					middle_name       = ?,
+					last_name     	  = ?,
+					dob     		  = ?,
+					sex     		  = ?,
+					category     	  = ?,
+					guardian_name     = ?,
+					local_address 	  = ?,
+					permanent_address = ?,
+					phone_1 		  = ?,
+					phone_2 		  = ?,
+					mobile 			  = ?,
+					home_town         = ?,
+					home_state        = ?,
+					language          = ?,
+					image_type        = ?
+				WHERE student_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->first_name, $obj->middle_name, $obj->last_name, $obj->dob, $obj->sex, $obj->category, $obj->guardian_name, $obj->local_address, $obj->permanent_address, $obj->phone_1, $obj->phone_2, $obj->mobile, $obj->home_town, $obj->home_state, $obj->language, $obj->image_type, $id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -170,12 +170,12 @@ class Student{
 		global $db;
 		global $session;
 		$sql = "UPDATE student SET 
-					mail_announce     = '{$obj->mail_announce}'
-				WHERE student_id = '{$session->user_id}'";
+					mail_announce     = ?
+				WHERE student_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->mail_announce, $session->user_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -219,7 +219,7 @@ class Student{
 		$sub = "New Announcement";
 		$msg = "{$announce->heading}\n\n{$announce->content}\n\n- {$name}";
 		
-		while($row = mysqli_fetch_array($result)){
+		while($row = $db->fetch_array($result)){
 			$to = $row['email'];
 			@mail($to,$sub,$msg,$from);
 		}
@@ -233,21 +233,17 @@ class Student{
 		global $db;
 		global $session;
 		
-		$sql = "SELECT * FROM student WHERE roll_no = '{$obj->roll_no}'";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM student WHERE roll_no = ?";
+		$result = $db->query($sql, [$obj->roll_no]);
 		
-		if(mysqli_num_rows($result)==0){
+		if($db->num_rows($result)==0){
 			$sql = "INSERT INTO student 
 					(student_id, roll_no, course) 
-					VALUES (
-							'{$obj->student_id}', 
-							'{$obj->roll_no}', 
-							'{$obj->course}'
-							)";
+					VALUES (?, ?, ?)";
 					
-			$result = $db->query($sql);
+			$result = $db->query($sql, [$obj->student_id, $obj->roll_no, $obj->course]);
 			
-			if($db->mysqli->affected_rows>0)
+			if($db->affected_rows($result)>0)
 				return true;
 			else
 				return false;

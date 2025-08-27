@@ -14,11 +14,11 @@ class Application{
 	
 	public static function getDetailByStudID($student_id){
 		global $db;
-		$sql = "SELECT * FROM applications WHERE student_id = '{$student_id}' ORDER BY app_date DESC";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM applications WHERE student_id = ? ORDER BY app_date DESC";
+		$result = $db->query($sql, [$student_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -28,11 +28,11 @@ class Application{
 	
 	public static function getDetailByRecID($recruiter_id){
 		global $db;
-		$sql = "SELECT * FROM applications WHERE recruiter_id = '{$recruiter_id}' ORDER BY app_date DESC";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM applications WHERE recruiter_id = ? ORDER BY app_date DESC";
+		$result = $db->query($sql, [$recruiter_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -43,14 +43,14 @@ class Application{
 	public static function getDetailBySR($student_id,$recruiter_id){
 		global $db;
 		$sql = "SELECT * FROM applications 
-				WHERE student_id = '{$student_id}' 
-				AND   recruiter_id = '{$recruiter_id}' 
+				WHERE student_id = ? 
+				AND   recruiter_id = ? 
 				LIMIT 1";
 		//echo $sql;		
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$student_id, $recruiter_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -79,11 +79,11 @@ class Application{
 		if(!$applied){
 			
 			$sql = "INSERT INTO applications (recruiter_id, student_id, cover_letter)
-					VALUES ('{$obj->recruiter_id}','{$session->user_id}','{$obj->cover_letter}')";
+					VALUES (?,?,?)";
 					
-			$result = $db->query($sql);
+			$result = $db->query($sql, [$obj->recruiter_id, $session->user_id, $obj->cover_letter]);
 			
-			if($db->mysqli->affected_rows>0)
+			if($db->affected_rows($result)>0)
 				return true;
 			else
 				return false;
@@ -97,14 +97,14 @@ class Application{
 		global $db;
 		global $session;
 		$sql = "UPDATE applications SET 
-					status = '{$obj->status}',
-					notes  = '{$obj->notes}'
-				WHERE recruiter_id = '{$session->user_id}'
-				AND	  student_id   = '{$obj->student_id}'";
+					status = ?,
+					notes  = ?
+				WHERE recruiter_id = ?
+				AND	  student_id   = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->status, $obj->notes, $session->user_id, $obj->student_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -115,12 +115,12 @@ class Application{
 		global $db;
 		$sql = "SELECT * FROM applications a, recruiter r
 				WHERE a.recruiter_id = r.recruiter_id
-				AND a.student_id = '{$student_id}' 
+				AND a.student_id = ? 
 				AND a.status = 'Selected'
-				AND r.grade >= '{$rec_grade}'";
-		$result = $db->query($sql);
+				AND r.grade >= ?";
+		$result = $db->query($sql, [$student_id, $rec_grade]);
 		
-		if(mysqli_num_rows($result)>0)
+		if($db->num_rows($result)>0)
 		   return false;
 		else
 			return true;
@@ -129,10 +129,10 @@ class Application{
 	public static function getNumberByRec($rec_id){
 		global $db;
 		$sql = "SELECT * FROM applications a
-				WHERE recruiter_id = {$rec_id}";
-		$result = $db->query($sql);
+				WHERE recruiter_id = ?";
+		$result = $db->query($sql, [$rec_id]);
 
-		return mysqli_num_rows($result);
+		return $db->num_rows($result);
 		
 	}
 	
@@ -140,13 +140,13 @@ class Application{
 		
 		global $db;
 		$sql = "UPDATE applications SET 
-					status = '{$obj->status}'
-				WHERE recruiter_id = '{$obj->recruiter_id}'
-				AND	  student_id   = '{$obj->student_id}'";
+					status = ?
+				WHERE recruiter_id = ?
+				AND	  student_id   = ?";
 		
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->status, $obj->recruiter_id, $obj->student_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;

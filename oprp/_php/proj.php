@@ -21,11 +21,11 @@ class Project{
 	
 	public static function getDetailByID($user_id){
 		global $db;
-		$sql = "SELECT * FROM projects WHERE student_id = '{$user_id}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM projects WHERE student_id = ? LIMIT 1";
+		$result = $db->query($sql, [$user_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -58,23 +58,23 @@ class Project{
 		global $db;
 		global $session;
 		$sql = "UPDATE projects SET 
-					training_1 = '{$obj->training_1}',
-					training_2 = '{$obj->training_2}',
-					training_3 = '{$obj->training_3}',
-					training_4 = '{$obj->training_4}',
-					training_5 = '{$obj->training_5}',
-					training_6 = '{$obj->training_6}',
-					professional_society = '{$obj->professional_society}',
-					extra_curricular = '{$obj->extra_curricular}',
-					career_objectives = '{$obj->career_objectives}',
-					skills_tech = '{$obj->skills_tech}',
-					skills_other = '{$obj->skills_other}',
-					hobbies = '{$obj->hobbies}'
-				WHERE student_id = '{$session->user_id}'";
+					training_1 = ?,
+					training_2 = ?,
+					training_3 = ?,
+					training_4 = ?,
+					training_5 = ?,
+					training_6 = ?,
+					professional_society = ?,
+					extra_curricular = ?,
+					career_objectives = ?,
+					skills_tech = ?,
+					skills_other = ?,
+					hobbies = ?
+				WHERE student_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->training_1, $obj->training_2, $obj->training_3, $obj->training_4, $obj->training_5, $obj->training_6, $obj->professional_society, $obj->extra_curricular, $obj->career_objectives, $obj->skills_tech, $obj->skills_other, $obj->hobbies, $session->user_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -85,23 +85,23 @@ class Project{
 		global $db;
 		global $session;
 		$sql = "UPDATE projects SET 
-					training_1 = '{$obj->training_1}',
-					training_2 = '{$obj->training_2}',
-					training_3 = '{$obj->training_3}',
-					training_4 = '{$obj->training_4}',
-					training_5 = '{$obj->training_5}',
-					training_6 = '{$obj->training_6}',
-					professional_society = '{$obj->professional_society}',
-					extra_curricular = '{$obj->extra_curricular}',
-					career_objectives = '{$obj->career_objectives}',
-					skills_tech = '{$obj->skills_tech}',
-					skills_other = '{$obj->skills_other}',
-					hobbies = '{$obj->hobbies}'
-				WHERE student_id = '{$id}'";
+					training_1 = ?,
+					training_2 = ?,
+					training_3 = ?,
+					training_4 = ?,
+					training_5 = ?,
+					training_6 = ?,
+					professional_society = ?,
+					extra_curricular = ?,
+					career_objectives = ?,
+					skills_tech = ?,
+					skills_other = ?,
+					hobbies = ?
+				WHERE student_id = ?";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->training_1, $obj->training_2, $obj->training_3, $obj->training_4, $obj->training_5, $obj->training_6, $obj->professional_society, $obj->extra_curricular, $obj->career_objectives, $obj->skills_tech, $obj->skills_other, $obj->hobbies, $id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;
@@ -114,11 +114,11 @@ class Project{
 		global $session;
 			
 		$sql = "INSERT INTO projects (student_id) 
-				VALUES ('{$obj->student_id}')";
+				VALUES (?)";
 				
-		$result = $db->query($sql);
+		$result = $db->query($sql, [$obj->student_id]);
 		
-		if($db->mysqli->affected_rows>0)
+		if($db->affected_rows($result)>0)
 			return true;
 		else
 			return false;

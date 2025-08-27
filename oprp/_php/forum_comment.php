@@ -14,11 +14,11 @@ class Forum_Comment{
 	
 	public static function getDetailByID($comment_id){
 		global $db;
-		$sql = "SELECT * FROM forum_comment WHERE comment_id = '{$comment_id}' LIMIT 1";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM forum_comment WHERE comment_id = ? LIMIT 1";
+		$result = $db->query($sql, [$comment_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
@@ -46,17 +46,12 @@ class Forum_Comment{
 		$obj->user_id = $session->user_id;
 		$sql = "INSERT INTO forum_comment 
 				(topic_id, user_id, content, attachment) 
-				VALUES (
-						'{$obj->topic_id}', 
-						'{$obj->user_id}', 
-						'{$obj->content}', 
-						'{$obj->attachment}'
-						)";
+				VALUES (?, ?, ?, ?)";
 			
-		$result = $db->query($sql);
-		if($db->mysqli->affected_rows>0){
+		$result = $db->query($sql, [$obj->topic_id, $obj->user_id, $obj->content, $obj->attachment]);
+		if($db->affected_rows($result)>0){
 		//	Forum_Subs::mailComment($obj);
-			return $db->mysqli->insert_id;
+			return $db->insert_id();
 		}else return false;
 	}
 	
@@ -64,11 +59,11 @@ class Forum_Comment{
 	
 	public static function getCommentByTopicID($topic_id){
 		global $db;
-		$sql = "SELECT * FROM forum_comment WHERE topic_id = '{$topic_id}' ORDER BY timestamp";
-		$result = $db->query($sql);
+		$sql = "SELECT * FROM forum_comment WHERE topic_id = ? ORDER BY timestamp";
+		$result = $db->query($sql, [$topic_id]);
 		$object_array = array();
 		
-		while ($row = mysqli_fetch_array($result)) {
+		while ($row = $db->fetch_array($result)) {
 		   $object_array[] = self::instantiate($row);
 		}
 		
