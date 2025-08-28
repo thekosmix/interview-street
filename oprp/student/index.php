@@ -25,7 +25,7 @@ if(isset($_POST["submit"])){
 	else{
 		$announce = new Announcement();
 		$announce->heading 	= trim($_POST['heading']);
-		$announce->content 	= mysqli_real_escape_string($db->mysqli, trim($_POST['content'])); 
+		$announce->content 	= $db->escape_string(trim($_POST['content'])); 
 		$announce->attachment = $_FILES['attachment']['name'];
 		$announce->year 	= arr_to_str($_POST['year_arr']); 
 		$announce->branch 	= arr_to_str($_POST['branch_arr']);

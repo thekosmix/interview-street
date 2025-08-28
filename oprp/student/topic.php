@@ -8,7 +8,7 @@ if(isset($_POST["submit"])){
 
 		$forum_comment = new Forum_Comment();
 		$forum_comment->topic_id 	= $topic_id;
-		$forum_comment->content 	= mysqli_real_escape_string($db->mysqli, trim($_POST['content'])); 
+		$forum_comment->content 	= $db->escape_string(trim($_POST['content'])); 
 		$forum_comment->attachment  = $_FILES['attachment']['name'];
 		
 		$inserted = Forum_Comment::insertComment($forum_comment);

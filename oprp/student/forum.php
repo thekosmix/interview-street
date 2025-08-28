@@ -9,7 +9,7 @@ if(isset($_POST["submit"])){
 	else{
 		$forum_topic = new Forum_Topic();
 		$forum_topic->heading 	= trim($_POST['heading']);
-		$forum_topic->content 	= mysqli_real_escape_string($db->mysqli, trim($_POST['content'])); 
+		$forum_topic->content 	= $db->escape_string(trim($_POST['content'])); 
 		$forum_topic->attachment = $_FILES['attachment']['name'];
 		$forum_topic->topic_type 	= $_POST['topic_type']; 
 		

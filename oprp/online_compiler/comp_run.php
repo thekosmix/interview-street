@@ -406,13 +406,13 @@
 			$status = 1;
 		
 		$que_title = getString('que_title', 'question', 'que_value', $que_value);
-	/*	
+		
 		echo "que_title: ".$que_title."<br />";
 		echo "output: ".$output."<br />";
 		echo "shell cmd: ".$shell."<br />";
 		echo "status: ".$status."<br />";
 		echo "to find: ".$find."<br />";
-	*/	
+		
 		if(insertsubmission($submission_value, $que_value, $file_content, $ext, $status, $user_id))
 			header("Location: view.php?que_value=".$que_value."&user_id=".$_SESSION['user_id']);
 	}

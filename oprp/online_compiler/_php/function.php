@@ -9,7 +9,7 @@ function getString($string, $table, $column, $value)
 	//echo $sql."<br><br>";
 	
 	$result = $db->query($sql);
-	$row = mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	
 	return $row[$string];
 }
@@ -20,19 +20,21 @@ function insertlink($link_value, $title, $link_prog, $link_ext, $link_input, $li
 	global $db;
 	$user_id = empty($user_id) ? ",NULL" : ",'".$user_id."'";
 	
-	$sql = "insert into link (link_value, link_name, link_prog, link_ext, link_input, link_output, exec_time, link_comment, share, user_id) values('"
-	.mysqli_real_escape_string($db->mysqli, $link_value)."','"
-	.mysqli_real_escape_string($db->mysqli, $title)."','"
-	.mysqli_real_escape_string($db->mysqli, $link_prog)."','"
-	.mysqli_real_escape_string($db->mysqli, $link_ext)."','"
-	.mysqli_real_escape_string($db->mysqli, $link_input)."','"
-	.mysqli_real_escape_string($db->mysqli, $link_output)."','"
-	.$time."','"
-	.mysqli_real_escape_string($db->mysqli, $comment)."','"
+	$sql = "insert into link (link_value, link_name, link_prog, link_ext, link_input, link_output, exec_time, link_comment, share, user_id) values("
+	.$db->escape_string($link_value).","
+	.$db->escape_string($title).","
+	.$db->escape_string($link_prog).","
+	.$db->escape_string($link_ext).","
+	.$db->escape_string($link_input).","
+	.$db->escape_string($link_output).",'"
+	.$time."',"
+	.$db->escape_string($comment).",'"
 	.$share."'"
 	.$user_id
 	.")";
 	
+	error_log($sql);
+
 	$result = $db->query($sql);
 	
 	if(!$result)
@@ -50,7 +52,13 @@ function insertsubmission($submission_value, $que_value, $file_content, $ext, $s
 	$points = number_format($points, 4, '.', '');
 	$sql_points="UPDATE question SET points='".$points."' WHERE que_value='".$que_value."'";
 	$db->query($sql_points);
-	$sql = "insert into submission (submission_value, que_value, submission_prog, submission_ext, submission_status, user_id) values('".mysqli_real_escape_string($db->mysqli, $submission_value)."','".mysqli_real_escape_string($db->mysqli, $que_value)."','".mysqli_real_escape_string($db->mysqli, $file_content)."','".mysqli_real_escape_string($db->mysqli, $ext)."','".mysqli_real_escape_string($db->mysqli, $status)."','".$user_id."')";
+	$sql = "insert into submission (submission_value, que_value, submission_prog, submission_ext, submission_status, user_id) values("
+		.$db->escape_string($submission_value).","
+		.$db->escape_string($que_value).","
+		.$db->escape_string($file_content).","
+		.$db->escape_string($ext).","
+		.$db->escape_string($status).",'"
+		.$user_id."')";
 	
 	$result = $db->query($sql);
 	
@@ -66,7 +74,7 @@ function getlinkdetail($link_value)
 	$sql = "select * from link where link_value = '".$link_value."'";
 	
 	$result = $db->query($sql);
-	$row = mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	
 	if($result)
 		return $row;
@@ -135,7 +143,7 @@ function getQuestionByValue($que_value)
 	$sql = "select * from question where que_value='".$que_value."'";
 	
 	$result = $db->query($sql);
-	$row = mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	
 	if($result)
 		return $row;
@@ -150,7 +158,7 @@ function getuserdetailbyID($user_id)
 	$sql = "select * from user where user_id = '".$user_id."'";
 	
 	$result = $db->query($sql);
-	$row = mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	
 	if($result)
 		return $row;
@@ -188,7 +196,14 @@ function uploadquestion($que_value, $que_title, $que_description, $que_input, $q
 {
 	global $db;
 	
-	$sql = "insert into question (que_value, que_title, que_description, que_input, que_output, output_description, exec_time, marks, points, universal, contest_value) values('".mysqli_real_escape_string($db->mysqli, $que_value)."','".mysqli_real_escape_string($db->mysqli, $que_title)."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $que_description))."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $que_input))."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $que_output))."','".htmlspecialchars(mysqli_real_escape_string($db->mysqli, $output_description))."','".$exec_time."','".$marks."','5','".$universal."','".$contest_value."')";
+	$sql = "insert into question (que_value, que_title, que_description, que_input, que_output, output_description, exec_time, marks, points, universal, contest_value) values("
+		.$db->escape_string($que_value).","
+		.$db->escape_string($que_title).",'"
+		.htmlspecialchars($db->escape_string($que_description))."','"
+		.htmlspecialchars($db->escape_string($que_input))."','"
+		.htmlspecialchars($db->escape_string($que_output))."','"
+		.htmlspecialchars($db->escape_string($output_description))."','"
+		.$exec_time."','".$marks."','5','".$universal."','".$contest_value."')";
 	
 	$result = $db->query($sql);
 	
@@ -347,7 +362,7 @@ function successful_submission($que_value)
 	$sql = "SELECT count(*)  FROM submission  WHERE que_value = '".$que_value."' and submission_status = '1'";
 	
 	$result = $db->query($sql);
-	$row = mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	
 	if($result)
 		return $row[0];
@@ -362,7 +377,7 @@ function total_submission($que_value)
 	$sql = "SELECT count(*)  FROM submission  WHERE que_value = '".$que_value."'";
 	
 	$result = $db->query($sql);
-	$row = mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	
 	if($result)
 		return $row[0];
