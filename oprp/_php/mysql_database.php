@@ -12,11 +12,19 @@ class MySQLDatabase implements DatabaseInterface {
 	
 	public function open_conn(){
 		$this->mysqli = new mysqli(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
-		if($this->mysqli -> connect_errno)
-			error_log('Database Connection Failed: ' . $this->mysqli -> connect_error);
+		if($this->mysqli->connect_errno) {
+			error_log('Database Connection Failed: ' . $this->mysqli->connect_error);
+			$this->mysqli = null;
+		}
 	}
 	
 	public function query($sql, $params = []){
+		if (!$this->mysqli) {
+			$this->open_conn();
+			if (!$this->mysqli) {
+				return false;
+			}
+		}
 		$stmt = $this->mysqli->prepare($sql);
 		if($stmt === false) {
 			error_log('Database Query Failed: '. $this->mysqli->error);
@@ -28,30 +36,45 @@ class MySQLDatabase implements DatabaseInterface {
 		}
 		$stmt->execute();
 		$result = $stmt->get_result();
-		if($result === false){
+		if($result === false && $stmt->errno) {
 			error_log('Database Query Failed: '. $stmt->error);
 		}
 		return $result;
 	}
 
 	public function fetch_array($result){
-		return mysqli_fetch_array($result);
+		if ($result instanceof mysqli_result) {
+			return mysqli_fetch_array($result);
+		}
+		return false;
 	}
 
 	public function num_rows($result){
-		return mysqli_num_rows($result);
+		if ($result instanceof mysqli_result) {
+			return mysqli_num_rows($result);
+		}
+		return 0;
 	}
 
 	public function affected_rows($result){
-		return $this->mysqli->affected_rows;
+		if ($this->mysqli) {
+			return $this->mysqli->affected_rows;
+		}
+		return 0;
 	}
 
 	public function insert_id(){
-		return $this->mysqli->insert_id;
+		if ($this->mysqli) {
+			return $this->mysqli->insert_id;
+		}
+		return 0;
 	}
 
 	public function escape_string($string){
-		return mysqli_real_escape_string($this->mysqli, $string);
+		if ($this->mysqli) {
+			return mysqli_real_escape_string($this->mysqli, $string);
+		}
+		return addslashes($string);
 	}
 	
 	public function close_conn(){
