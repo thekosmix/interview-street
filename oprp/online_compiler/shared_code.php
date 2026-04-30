@@ -30,7 +30,7 @@
 		$result = getSharedLinks();
 		echo "<table border='0' cellpadding='5' width='100%' class='normalTxt infotbl'>
 			<tr><th>User</th><th>Program</th><th>Language</th><th>Compile Time</th></tr>";
-		while($row = mysqli_fetch_array($result))
+		while($row = $db->fetch_array($result))
 		{
 			$info = Student::getDetailByID($row['user_id']);
 			echo "<tr>";

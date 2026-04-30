@@ -292,7 +292,7 @@ function getUniqueUserid($que_value)
 	global $db;
 	$sql="SELECT COUNT( DISTINCT (user_id) ) FROM submission WHERE que_value = '".$que_value."' AND submission_status =  '1' AND user_id >0";
 	$result = $db->query($sql);	
-	$row = mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	if($result)
 		return $row[0]; 
 	else
@@ -311,7 +311,7 @@ function userPoints($user_id)
 			) ";
 	
 	$result=$db->query($sql);
-	$row=mysqli_fetch_array($result);
+	$row = $db->fetch_array($result);
 	return $row[0];
 }
 
