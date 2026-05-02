@@ -75,9 +75,8 @@
 		// --unshare-all: isolate network, ipc, uts, pid, etc.
 		// --ro-bind: mount system dirs read-only
 		// --bind: mount the current path as writable for the compiler/runner
-		$sandbox_prefix = 'bwrap --unshare-all --new-session --proc /proc --dev /dev ' .
-		                  '--ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 --ro-bind /bin /bin --ro-bind /etc /etc ' .
-		                  '--ro-bind /home/thekosmix/.config/nvm /home/thekosmix/.config/nvm ' .
+		$sandbox_prefix = 'bwrap --unshare-all --new-session --dev /dev ' .
+		                  '--ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /bin /bin --ro-bind /etc /etc ' .
 		                  '--dir /tmp --bind ' . $path . ' ' . $path . ' --chdir ' . $path . ' ';
 
 		$file_comp = 'diff -aq ';
