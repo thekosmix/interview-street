@@ -24,6 +24,7 @@
     $createfile = fopen($ext.$file_name, 'w') or error_log("can't open file");
     fwrite($createfile, $prog_content);
     fclose($createfile);
+	shell_exec("sed -i 's/\\r//g' " . escapeshellarg($ext . $file_name));
 	
 	if($input != "")
 	{
@@ -31,6 +32,7 @@
 		$createinputfile = fopen($ext.$in_file_name, 'w') or error_log("can't open file");
 		fwrite($createinputfile, $input);
 		fclose($createinputfile);
+		shell_exec("sed -i 's/\\r//g' " . escapeshellarg($ext . $in_file_name));
 	}
 	
 	if($que_value == null)

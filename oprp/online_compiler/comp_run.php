@@ -31,26 +31,21 @@
 		if(PHP_OS == "Linux" || PHP_OS == "Darwin")
 		{
 			$resource_limit = 'ulimit -t '.$exec_time.'; ulimit -f 3000; ulimit -v 256000; ulimit -u 10; ';
-			if(isset($sandbox_prefix)) $resource_limit = $sandbox_prefix . $resource_limit;
+			if(isset($sandbox_prefix)) $resource_limit = $sandbox_prefix . ' bash -c "' . $resource_limit . ' \$0 \"\$@\"" ';
 		}
 	}
 	else if(PHP_OS == "Linux" || PHP_OS == "Darwin")
 	{
-		if(isset($sandbox_prefix)) $resource_limit = $sandbox_prefix . $resource_limit;
+		if(isset($sandbox_prefix)) $resource_limit = $sandbox_prefix . ' bash -c "' . $resource_limit . ' \$0 \"\$@\"" ';
 	}
 
 	$prog_file = $path.$ext.$file;
-	$fh = fopen($prog_file, 'r');
-	$file_content = null;
-	$file_content = htmlspecialchars(fread($fh, filesize($prog_file)));
-	fclose($fh);
+	$file_content = htmlspecialchars(file_get_contents($prog_file));
 	
 	if($input_file != null)
 	{
 		$in_file = $path.$ext.$input_file;
-		$fh = fopen($in_file, 'r');
-		$in_file_content = htmlspecialchars(fread($fh, filesize($in_file)));
-		fclose($fh);
+		$in_file_content = htmlspecialchars(file_get_contents($in_file));
 	}
 	
 	$submission_value = link_value();
@@ -106,7 +101,7 @@
 			$fin_time = microtime(true);
 		}
 
-		unlink($classfile.".class");
+		unlink($ext.$classfile.".class");
 	}
 	else if($ext == "cpp/")
 	{
@@ -175,7 +170,7 @@
 			}
 		}
 		else
-			$output = shell_exec($resource_limit.$perl_compiler.$path.$ext.$file.' '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
+			$output = shell_exec($resource_limit.$perl_compiler.$path.$ext.$file.' < '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
 			
 		$fin_time = microtime(true);
 	}
@@ -186,7 +181,7 @@
 		if($input_file == null)
 			$output = shell_exec($resource_limit.$php_compiler.$path.$ext.$file.' 2>&1');
 		else
-			$output = shell_exec($resource_limit.$php_compiler.$path.$ext.$file.' '.$path.$ext.$input_file.' 2>&1');
+			$output = shell_exec($resource_limit.$php_compiler.$path.$ext.$file.' < '.$path.$ext.$input_file.' 2>&1');
 			
 		$fin_time = microtime(true);
 	}
@@ -195,17 +190,14 @@
                 $init_time = microtime(true);
 
                 if($input_file == null)
-                        $output = shell_exec($resource_limit.$js_compiler.$path.$ext.$file.' 2>&1');
+                        $output = shell_exec($resource_limit.$js_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
                 else
-                        $output = shell_exec($resource_limit.$js_compiler.$path.$ext.$file.' '.$path.$ext.$input_file.' 2>&1');
+                        $output = shell_exec($resource_limit.$js_compiler.$path.$ext.$file.' < '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
 
                 $fin_time = microtime(true);
         }
 	else if($ext == "py/")
 	{		
-		$hello = shell_exec($resource_limit.$python_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
-		$out = shell_exec('cat out.txt');
-
 		$init_time = microtime(true);
 		
 		if($input_file == null)
@@ -222,7 +214,7 @@
                 if($input_file == null)
                         $output = shell_exec($resource_limit.$bash_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
                 else
-                        $output = shell_exec($resource_limit.$bash_compiler.$path.$ext.$file.' '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
+                        $output = shell_exec($resource_limit.$bash_compiler.$path.$ext.$file.' < '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
 
                 $fin_time = microtime(true);
         }
@@ -234,7 +226,7 @@
                 if($input_file == null)
                         $output = shell_exec($resource_limit.$awk_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
                 else
-                        $output = shell_exec($resource_limit.$awk_compiler.$path.$ext.$file.' '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
+                        $output = shell_exec($resource_limit.$awk_compiler.$path.$ext.$file.' < '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
 
                 $fin_time = microtime(true);
         }
@@ -285,7 +277,7 @@
 		$init_time = microtime(true);
 	
 		if($input_file == null)
-			$output = shell_exec($go_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
+			$output = shell_exec($resource_limit.$go_compiler.$path.$ext.$file.' > '.$path.$ext.'out.txt 2>&1');
 		else
 			$output = shell_exec($resource_limit.$go_compiler.$path.$ext.$file.' < '.$path.$ext.$input_file.' > '.$path.$ext.'out.txt 2>&1');
 			
@@ -383,10 +375,7 @@
 	$out_file = $path.$ext.'out.txt';
 	if(file_exists($out_file))
 	{
-		$fh = fopen($out_file, 'r');
-		$output = '';
-		$output = fread($fh, filesize($out_file));
-		fclose($fh);
+		$output = file_get_contents($out_file);
 		unlink($out_file);
 	}
 

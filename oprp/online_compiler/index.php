@@ -123,21 +123,22 @@ window.onload = selectsyntax;
             <select size="10" name="prog_lang" id="prog_lang" onchange="selectsyntax();">
             	<option value="awk" style="font-weight: bold">Awk</option>
             	<option value="bash" style="font-weight: bold">Bash</option>
-                <option value="bf" style="font-weight: bold">Brainf**k</option>
                 <option value="c" selected="selected" style="font-weight: bold">C</option>
-                <option value="cob">COBOL</option>
                 <option value="cpp" style="font-weight: bold">CPP</option>
-                <option value="f">Fortran</option>
-                <option value="go" style="font-weight: bold">Go</option>     
-                <option value="hs">Haskell</option>     
-                <option value="java" style="font-weight: bold">Java</option>                
-	     	    <option value="js" style="font-weight: bold">JavaScript</option>
-                <option value="pas">Pascal</option>                
-                <option value="pl" style="font-weight: bold">Perl</option>
-                <option value="php"">PHP</option>
+                <option value="php" style="font-weight: bold">PHP</option>
                 <option value="py" style="font-weight: bold">Python</option>
-                <option value="r" >R</option>
-                <option value="rb" style="font-weight: bold">Ruby</option>
+                <option value="">----</option>
+                <option value="bf">Brainf**k</option>
+                <option value="cob">COBOL</option>
+                <option value="f">Fortran</option>
+                <option value="go">Go</option>     
+                <option value="js">JavaScript</option>
+                <option value="hs">Haskell</option>
+                <option value="java">Java</option>
+                <option value="pas">Pascal</option>                
+                <option value="pl">Perl</option>
+                <option value="r">R</option>
+                <option value="rb">Ruby</option>
                 <option value="scala">Scala</option>
             </select>
         </td>

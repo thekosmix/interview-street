@@ -38,6 +38,8 @@
 		{
 			if(move_uploaded_file($out_file_tmp,$out_folder.$out_file_name) && move_uploaded_file($in_file_tmp,$in_folder.$in_file_name))
 			{
+				shell_exec("sed -i 's/\\r//g' " . escapeshellarg($out_folder.$out_file_name));
+				shell_exec("sed -i 's/\\r//g' " . escapeshellarg($in_folder.$in_file_name));
 				$bool = uploadquestion($que_value, $que_title, $que_description, $que_input, $que_output, $output_description, $exec_time, $marks, $universal, $contest_value);
 				if($bool)
 				{

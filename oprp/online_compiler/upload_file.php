@@ -28,7 +28,11 @@
 	else if(($ext == "bf/") || ($ext == "c/") || ($ext == "cpp/") || ($ext == "go/") || ($ext == "hs/") || ($ext == "java/") || ($ext == "pas/") || ($ext == "php/") || ($ext == "pl/") || ($ext == "py/") || ($ext == "r/") || ($ext == "rb/"))
 	{	
 		move_uploaded_file($file_tmp,$ext.$file_name);
-		move_uploaded_file($in_file_tmp,$ext.$in_file_name);
+		shell_exec("sed -i 's/\\r//g' " . escapeshellarg($ext.$file_name));
+		if($in_file_tmp != "") {
+			move_uploaded_file($in_file_tmp,$ext.$in_file_name);
+			shell_exec("sed -i 's/\\r//g' " . escapeshellarg($ext.$in_file_name));
+		}
 		if($que_value == null)
 			header("Location: comp_run.php?share=".$share."&ext=".$ext."&file=".$file_name."&input_file=".$in_file_name);
 		else

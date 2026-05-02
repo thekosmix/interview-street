@@ -33,7 +33,7 @@ function insertlink($link_value, $title, $link_prog, $link_ext, $link_input, $li
 	.$user_id
 	.")";
 	
-	error_log($sql);
+//	error_log($sql);
 
 	$result = $db->query($sql);
 	

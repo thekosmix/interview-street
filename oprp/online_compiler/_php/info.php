@@ -76,7 +76,8 @@
 		// --ro-bind: mount system dirs read-only
 		// --bind: mount the current path as writable for the compiler/runner
 		$sandbox_prefix = 'bwrap --unshare-all --new-session --proc /proc --dev /dev ' .
-		                  '--ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 --ro-bind /bin /bin ' .
+		                  '--ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 --ro-bind /bin /bin --ro-bind /etc /etc ' .
+		                  '--ro-bind /home/thekosmix/.config/nvm /home/thekosmix/.config/nvm ' .
 		                  '--dir /tmp --bind ' . $path . ' ' . $path . ' --chdir ' . $path . ' ';
 
 		$file_comp = 'diff -aq ';
@@ -95,7 +96,7 @@
 
 		$python_compiler = '"python3" ';
 
-		$ruby_compiler = '"/home/ubuntu/.rvm/rubies/ruby-2.2.1/bin/ruby" ';
+		$ruby_compiler = 'ruby ';
 
 		$haskell_compiler = '"ghc" ';
 
@@ -118,7 +119,7 @@
 		$scala_compiler = 'scalac ';
 		$scala = 'scala -cp ';
 		
-		$js_compiler = '"nodejs" ';
+		$js_compiler = '"node" ';
 
         $find = "differ";
 		
