@@ -43,11 +43,13 @@ if(isset($_POST["submit"])){
 
 
 $course = Student::getCourseByID($session->user_id);
+$acad = null;
+$yr_of_comp = "all";
 switch($course)
 {
-	case 'be': $acad = Academics_BE::getDetailByID($session->user_id); $yr_of_comp = $acad->year_of_grad; break;
-	case 'me': $acad = Academics_ME::getDetailByID($session->user_id); $yr_of_comp = $acad->year_of_pg; break;
-	case 'mba': $acad = Academics_MBA::getDetailByID($session->user_id); $yr_of_comp = $acad->year_of_pg; break;
+	case 'be': $acad = Academics_BE::getDetailByID($session->user_id); if($acad) $yr_of_comp = $acad->year_of_grad; break;
+	case 'me': $acad = Academics_ME::getDetailByID($session->user_id); if($acad) $yr_of_comp = $acad->year_of_pg; break;
+	case 'mba': $acad = Academics_MBA::getDetailByID($session->user_id); if($acad) $yr_of_comp = $acad->year_of_pg; break;
 }
 
 $branch_be_global = Branch::getDetailByCourse("be");
@@ -177,7 +179,7 @@ function getAnnouncements(eve)
 					for($ctr=1,$branch = array_shift($branch_be);$branch;$branch = array_shift($branch_be),$ctr++)
 					{	
 						echo"<td><input type='checkbox'"; 
-						if($acad->branch == $branch->branch_code) echo " checked='checked'";
+						if($acad && $acad->branch == $branch->branch_code) echo " checked='checked'";
 						echo " id='branch_arr' name='branch_arr[]' value='{$branch->branch_code}' />
 						<label title='{$branch->branch_name}'>{$branch->branch_code} </label></td>";
 						if($ctr%5==0) echo"</tr><tr>";
@@ -189,7 +191,7 @@ function getAnnouncements(eve)
 					for($ctr=1,$branch = array_shift($branch_me);$branch;$branch = array_shift($branch_me),$ctr++)
 					{
 						echo"<td><input type='checkbox' id='branch_arr'";
-						if($acad->branch == $branch->branch_code) echo " checked='checked'";
+						if($acad && $acad->branch == $branch->branch_code) echo " checked='checked'";
 						echo " name='branch_arr[]' value='{$branch->branch_code}' />
 							<label title='{$branch->branch_name}'>{$branch->branch_code} </label></td>";
 						if($ctr%8==0) echo"</tr><tr>";
@@ -201,7 +203,7 @@ function getAnnouncements(eve)
 					for($ctr=1,$branch = array_shift($branch_mba);$branch;$branch = array_shift($branch_mba),$ctr++)
 					{
 						echo"<td><input type='checkbox' id='branch_arr'";
-						if($acad->branch == $branch->branch_code) echo " checked='checked'";			
+						if($acad && $acad->branch == $branch->branch_code) echo " checked='checked'";			
 						echo " name='branch_arr[]' value='{$branch->branch_code}' />
 							<label title='{$branch->branch_name}'>{$branch->branch_code} </label></td>";
 						if($ctr%8==0) echo"</tr><tr>";
@@ -243,21 +245,21 @@ function getAnnouncements(eve)
 						while($branch = array_shift($branch_be))
 						{
 							echo"<option value='{$branch->branch_code}'";
-							if($acad->branch == $branch->branch_code) echo " selected='selected'";
+							if($acad && $acad->branch == $branch->branch_code) echo " selected='selected'";
 							echo">{$branch->branch_name}</option>"; 
                         }
 						$branch_me = Branch::getDetailByCourse("me");
 						while($branch = array_shift($branch_me))
 						{
 							echo"<option value='{$branch->branch_code}'";
-							if($acad->branch == $branch->branch_code) echo " selected='selected'";
+							if($acad && $acad->branch == $branch->branch_code) echo " selected='selected'";
 							echo">{$branch->branch_name}</option>"; 
                         }
 						$branch_mba = Branch::getDetailByCourse("mba");
 						while($branch = array_shift($branch_mba))
 						{
 							echo"<option value='{$branch->branch_code}'";
-							if($acad->branch == $branch->branch_code) echo " selected='selected'";
+							if($acad && $acad->branch == $branch->branch_code) echo " selected='selected'";
 							echo">{$branch->branch_name}</option>"; 
                         }
 					?>
@@ -282,7 +284,8 @@ function getAnnouncements(eve)
                         
             <?php   
 			
-                $announce_all = Announcement::getMyAnnouncement($yr_of_comp, $acad->branch,"all","1", $num); 
+                $branch_id = $acad ? $acad->branch : "all";
+                $announce_all = Announcement::getMyAnnouncement($yr_of_comp, $branch_id, "all", "1", $num); 
 
 				if($announce_all)
                     while($announce = array_shift($announce_all))
@@ -323,7 +326,7 @@ function getAnnouncements(eve)
 				
 				echo "<tr class='seperator'><td align='right'><span class='smallTxt'>";
 				echo"<label><span class='fade'>&lt;&lt; Newer</span></label> | ";
-				if(Announcement::getMyAnnouncement($acad->year_of_grad, $acad->branch, "all", 2, $num) != false)
+				if(Announcement::getMyAnnouncement($yr_of_comp, $branch_id, "all", 2, $num) != false)
 					echo"<a onclick=\"getAnnouncements('next')\" style='cursor:pointer;'>Older &gt;&gt;</a>";
 				else echo"<label><span class='fade'>Older &gt;&gt;</span></label>";
             	echo"</span></td></tr>";

@@ -115,12 +115,13 @@ window.onload = selectsyntax;
         <table border="0" width="100%" cellspacing="5">
         <input type='hidden' name='que_value' value='<?php echo $que_value; ?>' />
         <tr>
-            <td width="10%"><label>Prog language:</label></td>
-            <td width="60%"><label>Title:</label><input type="text" name="title" value="<?php echo $que_title; ?>" /></td>
+            <td width="20%"><label>Title:</label></td>
+            <td><input type="text" name="title" value="<?php echo $que_title; ?>" style="width:100%" /></td>
         </tr>
         <tr>
-        <td valign="top">
-            <select size="10" name="prog_lang" id="prog_lang" onchange="selectsyntax();">
+            <td><label>Prog language:</label></td>
+            <td>
+            <select name="prog_lang" id="prog_lang" onchange="selectsyntax();" style="width:100%">
             	<option value="awk" style="font-weight: bold">Awk</option>
             	<option value="bash" style="font-weight: bold">Bash</option>
                 <option value="c" selected="selected" style="font-weight: bold">C</option>
@@ -141,19 +142,30 @@ window.onload = selectsyntax;
                 <option value="rb">Ruby</option>
                 <option value="scala">Scala</option>
             </select>
-        </td>
-        <td>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
 				<textarea id="example_1" style="height: 340px; width: 100%;" name="example_1">
                 </textarea>
-    	</td></tr>
+    	    </td>
+        </tr>
         
         <?php if($que_value == null) { 	?>
-        <tr><td colspan="2">Input<br />
-            <textarea name="input" cols="40" style="height: 150px; width:100%"></textarea></td></tr>
+        <tr>
+            <td colspan="2" valign="top">Input:</td>
+        </tr>
+        <tr>
+            <td colspan="2"><textarea name="input" cols="40" style="height: 150px; width:100%"></textarea></td>
+        </tr>
         <?php } ?>
              
-         <tr><td colspan="2">Comments:<br/>
-             <textarea name="comment" cols="40" style="height: 150px; width: 100%;"></textarea></td></tr>
+        <tr>
+             <td colspan="2" valign="top">Comments:</td>
+        </tr>
+        <tr>
+             <td colspan="2"><textarea name="comment" cols="40" style="height: 150px; width: 100%;"></textarea></td>
+         </tr>
                  
 		<?php if(($que_value == null) && $session->isStudent()) {  ?>
         <tr><td colspan="2"><input type="checkbox" name="share" value="sharecode" />Share this code</td></tr>

@@ -1,5 +1,5 @@
 <tr valign="top">
-<td width="200px" bgcolor="#dddddd" valign="top">
+<td id="left-panel" width="200px" bgcolor="#dddddd" valign="top">
 <div id="menu" style="vertical-align:top">
 	<h3><a href="#section1">Preferences</a></h3>
 	<div>
@@ -45,23 +45,6 @@
 	</div>
 </div>
 
-<p align="center"><img src="../_images/dtu.png" align="middle" /></p>
-
-
 </td>
             
-<td width="20px">
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-</td>
-            
-<td width="730px" bgcolor="#dddddd" valign="top">            	          	
+<td id="main-content" width="730px" bgcolor="#dddddd" valign="top">            	          	

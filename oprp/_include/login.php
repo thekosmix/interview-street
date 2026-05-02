@@ -1,5 +1,5 @@
 <tr valign="top">
-<td width="200px" bgcolor="#dddddd">
+<td id="left-panel" width="200px" bgcolor="#dddddd">
 
 <div id="loginbox">
                 	<form name="loginForm" id="loginForm" method="post" action="index.php">
@@ -21,18 +21,4 @@
 
 </td>
             
-<td width="20px">
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-</td>
-            
-<td width="730px" bgcolor="#dddddd" valign="top">            	
+<td id="main-content" width="730px" bgcolor="#dddddd" valign="top">            	

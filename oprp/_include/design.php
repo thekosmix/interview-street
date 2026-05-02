@@ -1,4 +1,5 @@
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="<?php echo ABS_PATH; ?>_images/favicon.png" />
 <link href="<?php echo ABS_PATH; ?>_css/main.css" rel="stylesheet" type="text/css"></link>
 <link href="<?php echo ABS_PATH; ?>_css/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css"></link>
@@ -20,6 +21,10 @@ echo"<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.
 			autoHeight: false,
 			navigation: true
 		});
+        
+        $("#hamburger-toggle").live("click", function() {
+            $("#left-panel").toggleClass("active");
+        });
 	});
 </script>
 

@@ -2,7 +2,14 @@
 <div id="header"></div>
 <div id="subheader"></div>
 <div id="container">
-<table cellspacing="0" cellpadding="0" border="0" width="950px" align="left">
+<div class="hamburger" id="hamburger-toggle">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 7H26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M4 15H26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M4 23H26" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+</div>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" align="left">
 
 
 
