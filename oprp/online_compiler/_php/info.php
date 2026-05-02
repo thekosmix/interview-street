@@ -64,7 +64,21 @@
     else if(PHP_OS == "Linux")
 	{
 		$path = getcwd().'/';	//	/opt/lampp/htdocs/online_compiler
-		$resource_limit = 'ulimit -t 2; ulimit -f 3000; ';
+		// Expanded resource limits: 
+		// -t 2: CPU time 3s
+		// -f 3000: Max file size ~3MB
+		// -v 256000: Max virtual memory 256MB
+		// -u 10: Max user processes 10 (prevent fork bombs)
+		$resource_limit = 'ulimit -t 3; ulimit -f 3000; ulimit -v 256000; ulimit -u 5; ';
+		
+		// Bubblewrap sandbox prefix
+		// --unshare-all: isolate network, ipc, uts, pid, etc.
+		// --ro-bind: mount system dirs read-only
+		// --bind: mount the current path as writable for the compiler/runner
+		$sandbox_prefix = 'bwrap --unshare-all --new-session --proc /proc --dev /dev ' .
+		                  '--ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 --ro-bind /bin /bin ' .
+		                  '--dir /tmp --bind ' . $path . ' ' . $path . ' --chdir ' . $path . ' ';
+
 		$file_comp = 'diff -aq ';
 		$output_folder = $path.'_competition/output/';
 
@@ -79,7 +93,7 @@
 
 		$php_compiler = '"php" ';
 
-		$python_compiler = '"python" ';
+		$python_compiler = '"python3" ';
 
 		$ruby_compiler = '"/home/ubuntu/.rvm/rubies/ruby-2.2.1/bin/ruby" ';
 

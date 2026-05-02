@@ -29,7 +29,14 @@
 		$que_value = $_GET['que_value'];
 		$exec_time = (getString('exec_time', 'question', 'que_value', $que_value))/1000;
 		if(PHP_OS == "Linux" || PHP_OS == "Darwin")
-		$resource_limit = 'ulimit -t '.$exec_time.'; ';
+		{
+			$resource_limit = 'ulimit -t '.$exec_time.'; ulimit -f 3000; ulimit -v 256000; ulimit -u 10; ';
+			if(isset($sandbox_prefix)) $resource_limit = $sandbox_prefix . $resource_limit;
+		}
+	}
+	else if(PHP_OS == "Linux" || PHP_OS == "Darwin")
+	{
+		if(isset($sandbox_prefix)) $resource_limit = $sandbox_prefix . $resource_limit;
 	}
 
 	$prog_file = $path.$ext.$file;
