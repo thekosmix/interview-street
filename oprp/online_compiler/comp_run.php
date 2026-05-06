@@ -47,7 +47,7 @@
 		$in_file = $path.$ext.$input_file;
 		$in_file_content = htmlspecialchars(file_get_contents($in_file));
 	}
-	
+	putenv('PATH=/usr/local/bin:/usr/bin:/bin');
 	$submission_value = link_value();
 	
 	if($ext == "java/")
