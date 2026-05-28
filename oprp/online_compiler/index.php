@@ -128,6 +128,7 @@ window.onload = selectsyntax;
                 <option value="cpp" style="font-weight: bold">CPP</option>
                 <option value="php" style="font-weight: bold">PHP</option>
                 <option value="py" style="font-weight: bold">Python</option>
+                <option value="pl" style="font-weight: bold">Perl</option>
                 <option value="">----</option>
                 <option value="bf">Brainf**k</option>
                 <option value="cob">COBOL</option>
@@ -137,7 +138,6 @@ window.onload = selectsyntax;
                 <option value="hs">Haskell</option>
                 <option value="java">Java</option>
                 <option value="pas">Pascal</option>                
-                <option value="pl">Perl</option>
                 <option value="r">R</option>
                 <option value="rb">Ruby</option>
                 <option value="scala">Scala</option>
