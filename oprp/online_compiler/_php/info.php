@@ -120,7 +120,7 @@
 		
 		$js_compiler = '"node" ';
 
-        $find = "differ";
+        $find = "diff";
 		
 	}
 
